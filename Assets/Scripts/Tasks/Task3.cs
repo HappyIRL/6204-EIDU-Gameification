@@ -74,6 +74,13 @@ public class Task3 : MonoBehaviour, IKeyboard
 		}
 	}
 
+	private void ResetAnswerData()
+	{
+		answerGiven = "";
+		savedNumbers.Clear();
+		answerText.text = "";
+	}
+
 	private void CheckAnswer()
 	{
 		string answer = "";
@@ -88,6 +95,7 @@ public class Task3 : MonoBehaviour, IKeyboard
 			OnCorrectAnswer();
 		}
 
+		ResetAnswerData();
 		NextQuestion();
 	}
 

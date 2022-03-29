@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Collections.Generic;using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,8 +18,6 @@ public class Task2 : MonoBehaviour
 
 	private void Awake()
 	{
-		print(colors[1]);
-
 		for (int i = 0; i < buttons.Length; i++)
 		{
 			tmpTexts[i] = buttons[i].GetComponentInChildren<TMP_Text>();
@@ -81,17 +78,17 @@ public class Task2 : MonoBehaviour
 		if (correctAnswerIndex == index)
 			OnCorrectAnswer();
 
+		NextQuestion();
+	}
+
+	private void NextQuestion()
+	{
 		if (questionIndex >= questions.Count - 1)
 		{
 			TaskHandler.Instance.CompleteTask();
 			return;
 		}
 
-		NextQuestion();
-	}
-
-	private void NextQuestion()
-	{
 		PopulateButtonsData(questions[questionIndex + 1]);
 		questionIndex++;
 	}

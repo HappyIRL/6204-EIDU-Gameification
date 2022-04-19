@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numberOptions:
   - Options:
-    - 1
+    - 2
     - 0
   - Options:
     - 4

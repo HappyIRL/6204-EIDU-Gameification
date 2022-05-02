@@ -63,6 +63,7 @@ public class TaskHandler : MonoBehaviour
 
 	private void OnAllTasksComplete()
 	{
+		keyboardGO.SetActive(false);
 		Debug.Log("All tasks complete");
 	}
 }

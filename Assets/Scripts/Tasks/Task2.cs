@@ -23,12 +23,12 @@ public class Task2 : MonoBehaviour
 			tmpTexts[i] = buttons[i].GetComponentInChildren<TMP_Text>();
 			buttonImages[i] = buttons[i].GetComponent<Image>();
 		}
-
-		PopulateButtonsData(questions[0]);
 	}
 
 	private void OnEnable()
 	{
+		PopulateButtonsData(questions[0]);
+
 		for (int i = 0; i < buttons.Length; i++)
 		{
 			int j = i;
@@ -41,7 +41,7 @@ public class Task2 : MonoBehaviour
 		SetButtonColor();
 
 		int index = Random.Range(0, data.NumberOptions.Count);
-		List<string> answers = Utils.Shuffle(data.NumberOptions[index].Options);
+		List<string> answers = Utils.NewShuffled(data.NumberOptions[index].Options);
 		int biggestValue = 0;
 
 		for (int i = 0; i < answers.Count; i++)

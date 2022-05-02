@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Random = System.Random;
 
@@ -15,17 +16,34 @@ public static class Utils
 		}
 	}
 
-	public static List<T> Shuffle<T>(List<T> originalArray)
+	public static T[] NewShuffled<T>(T[] originalArray)
 	{
 		Random rng = new Random();
+		T[] newArray = (T[])originalArray.Clone();
 
-		int n = originalArray.Capacity;
+		int n = newArray.Length;
 		while (n > 1)
 		{
 			int k = rng.Next(n--);
-			(originalArray[n], originalArray[k]) = (originalArray[k], originalArray[n]);
+			(newArray[n], newArray[k]) = (newArray[k], newArray[n]);
 		}
 
-		return originalArray;
+		return newArray;
+	}
+
+	public static List<T> NewShuffled<T>(List<T> originalList)
+	{
+		List<T> newList = new List<T>(originalList);
+
+		Random rng = new Random();
+
+		int n = newList.Count;
+		while (n > 1)
+		{
+			int k = rng.Next(n--);
+			(newList[n], newList[k]) = (newList[k], newList[n]);
+		}
+
+		return newList;
 	}
 }

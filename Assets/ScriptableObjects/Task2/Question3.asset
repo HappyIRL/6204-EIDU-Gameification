@@ -13,13 +13,7 @@ MonoBehaviour:
   m_Name: Question3
   m_EditorClassIdentifier: 
   numberOptions:
-  - Options:
-    - -222
-    - -13
-    - -500
-    - -844
-  - Options:
-    - -961
-    - -128
-    - -5
-    - -333
+    A: -2
+    B: -4
+    C: -8
+    D: -10

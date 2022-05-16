@@ -1,42 +1,35 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Task3 : MonoBehaviour, IKeyboard
 {
 	[SerializeField] private List<Task3Question> questions = new List<Task3Question>();
-	[SerializeField] private Image[] fields = new Image[4];
-
-	private TMP_Text[] tmpTexts = new TMP_Text[4];
+	[SerializeField] private TMP_Text[] tmpTexts = new TMP_Text[4];
 
 	private string correctAnswer = "";
 	private int numberCountNeeded;
 	private int questionIndex;
-	private string answerGiven = "";
 	private TMP_Text answerText;
-	private List<int> savedNumbers = new List<int>();
-
-	private Color[] colors = { new Color32(189, 110, 203, 255), new Color32(166, 253, 132, 255), new Color32(111, 223, 227, 255), new Color32(250, 219, 110, 255) };
+	private List<int> savedNumbers = new();
+	private bool canListen;
 
 	private void Awake()
 	{
-		for (int i = 0; i < fields.Length; i++)
-		{
-			tmpTexts[i] = fields[i].GetComponentInChildren<TMP_Text>();
-		}
-
 		PopulateFieldData(questions[0]);
 	}
 
 	private void PopulateFieldData(Task3Question data)
 	{
-		SetButtonColor();
-		int index = Random.Range(0, data.NumberSequences.Count);
-		List<string> answers = data.NumberSequences[index].Options;
-		index = Random.Range(0, data.NumberSequences[index].Options.Count);
+		string[] answers = data.NumberSequence;
+		int index = Random.Range(0, data.NumberSequence.Length);
 
-		for (int i = 0; i < answers.Count; i++)
+		for (int i = 0; i < answers.Length; i++)
 		{
 			tmpTexts[i].text = answers[i];
 		}
@@ -45,6 +38,7 @@ public class Task3 : MonoBehaviour, IKeyboard
 		correctAnswer = answerText.text;
 		numberCountNeeded = answerText.text.Length;
 		answerText.text = "";
+		canListen = true;
 	}
 
 	private void OnCorrectAnswer()
@@ -52,31 +46,26 @@ public class Task3 : MonoBehaviour, IKeyboard
 		print("yay");
 	}
 
-	private void NextQuestion()
+	private IEnumerator NextQuestion()
 	{
+		canListen = false;
+
+		yield return new WaitForSeconds(1);
+
+		ResetAnswerData();
+
 		if (questionIndex >= questions.Count - 1)
 		{
 			TaskHandler.Instance.CompleteTask();
-			return;
+			yield break;
 		}
 
 		PopulateFieldData(questions[questionIndex + 1]);
 		questionIndex++;
 	}
 
-	private void SetButtonColor()
-	{
-		colors.Shuffle();
-
-		for (int i = 0; i < fields.Length; i++)
-		{
-			fields[i].color = colors[i];
-		}
-	}
-
 	private void ResetAnswerData()
 	{
-		answerGiven = "";
 		savedNumbers.Clear();
 		answerText.text = "";
 	}
@@ -95,19 +84,33 @@ public class Task3 : MonoBehaviour, IKeyboard
 			OnCorrectAnswer();
 		}
 
-		ResetAnswerData();
-		NextQuestion();
+		StartCoroutine(NextQuestion());
 	}
 
 	public void SelectNumber(int n)
 	{
+		if (!canListen)
+			return;
+
 		savedNumbers.Add(n);
-		answerGiven = answerGiven + n;
-		answerText.text = answerGiven;
+		answerText.text = answerText.text + n;
 
 		if (savedNumbers.Count == numberCountNeeded)
 		{
 			CheckAnswer();
+		}
+	}
+
+	public void UndoNumber()
+	{
+		if (savedNumbers.Count != 0)
+		{
+			savedNumbers.RemoveAt(savedNumbers.Count - 1);
+
+			Char[] items = answerText.text.ToCharArray();
+			Array.Resize(ref items, items.Length - 1);
+
+			answerText.text = new string(items);
 		}
 	}
 }

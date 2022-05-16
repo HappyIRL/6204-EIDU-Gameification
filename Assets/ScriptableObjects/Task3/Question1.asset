@@ -12,19 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0a6cf953919c0c4da3f74af56c70e28, type: 3}
   m_Name: Question1
   m_EditorClassIdentifier: 
-  m_NumberSequences:
-  - Options:
-    - 2
-    - 4
-    - 6
-    - 8
-  - Options:
-    - 124
-    - 126
-    - 128
-    - 130
-  - Options:
-    - 300
-    - 400
-    - 500
-    - 600
+  numberSequence:
+    A: 2
+    B: 4
+    C: 6
+    D: 8

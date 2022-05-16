@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,23 +11,28 @@ public class Task4 : MonoBehaviour, IKeyboard
 	[SerializeField] private List<Task4Question> questions = new List<Task4Question>();
 
 
-	private List<int> savedNumbers = new List<int>();
+	private List<int> savedNumbers = new();
 	private string correctAnswer = "";
 	private int numberCountNeeded;
 	private int questionIndex;
-	private string answerGiven = "";
+	private bool canListen;
+
 
 	private void OnEnable()
 	{
 		PopulateFieldData(questions[0]);
 	}
 
-	private void NextQuestion()
+	private IEnumerator NextQuestion()
 	{
+		canListen = false;
+		yield return new WaitForSeconds(1);
+		ResetAnswerData();
+
 		if (questionIndex >= questions.Count - 1)
 		{
 			TaskHandler.Instance.CompleteTask();
-			return;
+			yield break;
 		}
 
 		PopulateFieldData(questions[questionIndex + 1]);
@@ -47,18 +53,31 @@ public class Task4 : MonoBehaviour, IKeyboard
 		}
 
 		numberCountNeeded = correctAnswer.Length;
+		canListen = true;
 
 	}
 
 	public void SelectNumber(int n)
 	{
 		savedNumbers.Add(n);
-		answerGiven = answerGiven + n;
-		answerText.text = answerGiven;
+		answerText.text = answerText.text + n;
 
 		if (savedNumbers.Count == numberCountNeeded)
 		{
 			CheckAnswer();
+		}
+	}
+
+	public void UndoNumber()
+	{
+		if (savedNumbers.Count != 0)
+		{
+			savedNumbers.RemoveAt(savedNumbers.Count - 1);
+
+			Char[] items = answerText.text.ToCharArray();
+			Array.Resize(ref items, items.Length - 1);
+
+			answerText.text = new string(items);
 		}
 	}
 
@@ -76,13 +95,11 @@ public class Task4 : MonoBehaviour, IKeyboard
 			OnCorrectAnswer();
 		}
 
-		ResetAnswerData();
-		NextQuestion();
+		StartCoroutine(NextQuestion());
 	}
 
 	private void ResetAnswerData()
 	{
-		answerGiven = "";
 		savedNumbers.Clear();
 		answerText.text = "";
 	}

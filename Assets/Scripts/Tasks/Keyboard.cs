@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public interface IKeyboard
 {
 	public void SelectNumber(int n);
+	public void UndoNumber();
 }
 
 public class Keyboard : MonoBehaviour
@@ -12,8 +13,9 @@ public class Keyboard : MonoBehaviour
 
 	private IKeyboard user;
 
-	private void OnEnable()
+	private void Awake()
 	{
+		
 		for (int i = 0; i < buttons.Length; i++)
 		{
 			int j = i;
@@ -30,16 +32,12 @@ public class Keyboard : MonoBehaviour
 	{
 		if (user == null)
 			return;
+		if(index == 10)
+		{
+			user.UndoNumber();
+			return;
+		}
 
 		user.SelectNumber(index);
-	}
-
-	private void OnDisable()
-	{
-		for (int i = 0; i < buttons.Length; i++)
-		{
-			int j = i;
-			buttons[i].onClick.RemoveListener(() => OnButtonClick(j));
-		}
 	}
 }

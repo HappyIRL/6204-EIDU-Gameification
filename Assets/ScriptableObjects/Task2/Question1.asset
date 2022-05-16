@@ -13,18 +13,7 @@ MonoBehaviour:
   m_Name: Question1
   m_EditorClassIdentifier: 
   numberOptions:
-  - Options:
-    - 2
-    - 0
-  - Options:
-    - 4
-    - 8
-  - Options:
-    - 9
-    - 3
-  - Options:
-    - 3
-    - 4
-  - Options:
-    - 10
-    - 9
+  - 2
+  - 4
+  - 
+  - 

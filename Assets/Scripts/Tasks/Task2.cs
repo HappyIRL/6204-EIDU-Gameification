@@ -10,18 +10,15 @@ public class Task2 : MonoBehaviour
 	[SerializeField] private List<Task2Question> questions = new List<Task2Question>();
 
 	private TMP_Text[] tmpTexts = new TMP_Text[4];
-	private Image[] buttonImages = new Image[4];
 
 	private int questionIndex;
 	private int correctAnswerIndex;
-	private Color[] colors = { new Color32(189,110, 203, 255), new Color32(166, 253, 132, 255), new Color32(111 , 223, 227, 255), new Color32(250, 219, 110, 255) };
 
 	private void Awake()
 	{
 		for (int i = 0; i < buttons.Length; i++)
 		{
 			tmpTexts[i] = buttons[i].GetComponentInChildren<TMP_Text>();
-			buttonImages[i] = buttons[i].GetComponent<Image>();
 		}
 	}
 
@@ -38,13 +35,10 @@ public class Task2 : MonoBehaviour
 
 	private void PopulateButtonsData(Task2Question data)
 	{
-		SetButtonColor();
+		string[] answers = Utils.NewShuffled(data.NumberOptions);
+		float biggestValue = Mathf.NegativeInfinity;
 
-		int index = Random.Range(0, data.NumberOptions.Count);
-		List<string> answers = Utils.NewShuffled(data.NumberOptions[index].Options);
-		int biggestValue = 0;
-
-		for (int i = 0; i < answers.Count; i++)
+		for (int i = 0; i < answers.Length; i++)
 		{
 			tmpTexts[i].text = answers[i];
 
@@ -57,16 +51,6 @@ public class Task2 : MonoBehaviour
 					correctAnswerIndex = i;
 				}
 			}
-		}
-	}
-
-	private void SetButtonColor()
-	{
-		colors.Shuffle();
-
-		for (int i = 0; i < buttonImages.Length; i++)
-		{
-			buttonImages[i].color = colors[i];
 		}
 	}
 

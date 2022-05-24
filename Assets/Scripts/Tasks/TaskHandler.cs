@@ -6,8 +6,7 @@ public class TaskHandler : MonoBehaviour
 {
 	[SerializeField] private List<GameObject> tasksInOrder = new List<GameObject>();
 	[SerializeField] private GameObject keyboardGO;
-	[SerializeField] private GameObject progressMap;
-
+	[SerializeField] private ProgressionMap progressMap;
 	private Keyboard keyboard;
 
 	public static TaskHandler Instance { get; private set; }
@@ -48,17 +47,16 @@ public class TaskHandler : MonoBehaviour
 			return;
 		}
 
-		StartCoroutine(NextTask());
+		NextTask();
 	}
 
-	private IEnumerator NextTask()
+	private void NextTask()
 	{
-		progressMap.SetActive(true);
+		progressMap.NextStep(ShowNextTask);
+	}
 
-		yield return new WaitForSeconds(1);
-
-		progressMap.SetActive(false);
-
+	private void ShowNextTask()
+	{
 		GameObject nextTaskGO = tasksInOrder[activeTask + 1];
 		nextTaskGO.SetActive(true);
 

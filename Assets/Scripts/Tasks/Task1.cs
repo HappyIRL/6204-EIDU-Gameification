@@ -6,31 +6,20 @@ using UnityEngine.UI;
 
 public class Task1 : MonoBehaviour
 {
-	[SerializeField] private Button[] buttons = new Button[9];
+	[SerializeField] private TaskField[] taskFields = new TaskField[9];
 	[SerializeField] private List<Task1Question> questions = new List<Task1Question>();
 
 	private int questionIndex;
-	private TMP_Text[] tmpTexts;
 	private TMP_Text correctAnswerTMP;
 
-	private void Awake()
-	{
-		tmpTexts = new TMP_Text[buttons.Length];
-
-		for (var i = 0; i < buttons.Length; i++)
-		{
-			tmpTexts[i] = buttons[i].GetComponentInChildren<TMP_Text>();
-		}
-	}
-
-	private void OnEnable()
+	private void Start()
 	{
 		PopulateFieldData(questions[0]);
 
-		for (int i = 0; i < buttons.Length; i++)
+		for (int i = 0; i < taskFields.Length; i++)
 		{
 			int j = i;
-			buttons[i].onClick.AddListener(() => OnButtonClick(j));
+			taskFields[i].Button.onClick.AddListener(() => OnButtonClick(j));
 		}
 	}
 
@@ -48,10 +37,10 @@ public class Task1 : MonoBehaviour
 
 	private void OnButtonClick(int index)
 	{
-		if (string.IsNullOrEmpty(tmpTexts[index].text))
+		if (string.IsNullOrEmpty(taskFields[index].TmpText.text))
 			return;
 
-		if (tmpTexts[index] == correctAnswerTMP)
+		if (taskFields[index].TmpText == correctAnswerTMP)
 			OnCorrectAnswer();
 
 		NextQuestion();
@@ -67,19 +56,20 @@ public class Task1 : MonoBehaviour
 		List<string> answers = data.Options;
 		int biggestValue = 0;
 
-		TMP_Text[] shuffledTexts = Utils.NewShuffled(tmpTexts);
+		TaskField[] shuffledTexts = Utils.NewShuffled(taskFields);
 
 		for (int i = 0; i < answers.Count; i++)
 		{
 			if (!string.IsNullOrEmpty(answers[i]))
 			{
-				shuffledTexts[i].text = answers[i];
+				shuffledTexts[i].TmpText.text = answers[i];
+				shuffledTexts[i].HasContext();
 
 				int x = int.Parse(answers[i]);
 				if (x > biggestValue)
 				{
 					biggestValue = x;
-					correctAnswerTMP = shuffledTexts[i];
+					correctAnswerTMP = shuffledTexts[i].TmpText;
 				}
 			}
 			else
@@ -91,10 +81,10 @@ public class Task1 : MonoBehaviour
 
 	private void OnDisable()
 	{
-		for (int i = 0; i < buttons.Length; i++)
+		for (int i = 0; i < taskFields.Length; i++)
 		{
 			int j = i;
-			buttons[i].onClick.RemoveListener(() => OnButtonClick(j));
+			taskFields[i].Button.onClick.RemoveListener(() => OnButtonClick(j));
 		}
 	}
 }

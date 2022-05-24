@@ -59,6 +59,9 @@ public class Task4 : MonoBehaviour, IKeyboard
 
 	public void SelectNumber(int n)
 	{
+		if (!canListen)
+			return;
+
 		savedNumbers.Add(n);
 		answerText.text = answerText.text + n;
 

@@ -1,35 +1,24 @@
-using System.Collections.Generic;using System.Threading.Tasks;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 public class Task2 : MonoBehaviour
 {
-	[SerializeField] private Button[] buttons = new Button[4];
+	[SerializeField] private TaskField[] taskFields = new TaskField[4];
 	[SerializeField] private List<Task2Question> questions = new List<Task2Question>();
-
-	private TMP_Text[] tmpTexts = new TMP_Text[4];
 
 	private int questionIndex;
 	private int correctAnswerIndex;
 
-	private void Awake()
-	{
-		for (int i = 0; i < buttons.Length; i++)
-		{
-			tmpTexts[i] = buttons[i].GetComponentInChildren<TMP_Text>();
-		}
-	}
-
-	private void OnEnable()
+	private void Start()
 	{
 		PopulateButtonsData(questions[0]);
 
-		for (int i = 0; i < buttons.Length; i++)
+		for (int i = 0; i < taskFields.Length; i++)
 		{
 			int j = i;
-			buttons[i].onClick.AddListener(() => OnButtonClick(j));
+			taskFields[i].Button.onClick.AddListener(() => OnButtonClick(j));
 		}
 	}
 
@@ -40,10 +29,10 @@ public class Task2 : MonoBehaviour
 
 		for (int i = 0; i < answers.Length; i++)
 		{
-			tmpTexts[i].text = answers[i];
-
 			if (!string.IsNullOrEmpty(answers[i]))
 			{
+				taskFields[i].TmpText.text = answers[i];
+				taskFields[i].HasContext();
 				int x = int.Parse(answers[i]);
 				if (x > biggestValue)
 				{
@@ -54,12 +43,12 @@ public class Task2 : MonoBehaviour
 		}
 	}
 
-	private void OnButtonClick(int index)
+	private void OnButtonClick(int i)
 	{
-		if (string.IsNullOrEmpty(tmpTexts[index].text))
+		if (string.IsNullOrEmpty(taskFields[i].TmpText.text))
 			return;
 
-		if (correctAnswerIndex == index)
+		if (correctAnswerIndex == i)
 			OnCorrectAnswer();
 
 		NextQuestion();
@@ -84,10 +73,10 @@ public class Task2 : MonoBehaviour
 
 	private void OnDisable()
 	{
-		for (int i = 0; i < buttons.Length; i++)
+		for (int i = 0; i < taskFields.Length; i++)
 		{
 			int j = i;
-			buttons[i].onClick.RemoveListener(() => OnButtonClick(j));
+			taskFields[i].Button.onClick.RemoveListener(() => OnButtonClick(j));
 		}
 	}
 }

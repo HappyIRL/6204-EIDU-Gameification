@@ -1,25 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
+using FMOD.Studio;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Task1 : MonoBehaviour
 {
-	[SerializeField] private TaskField[] taskFields = new TaskField[9];
+	[SerializeField] private TaskButton[] taskFields = new TaskButton[9];
 	[SerializeField] private List<Task1Question> questions = new List<Task1Question>();
+	[SerializeField] private Button replayButton;
 
 	private int questionIndex;
+    private FMOD.Studio.EventInstance fModInstance;
 	private TMP_Text correctAnswerTMP;
+	private string correctAnswer;
 
 	private void Start()
 	{
 		PopulateFieldData(questions[0]);
 
+		replayButton.onClick.AddListener(PlayNumberAudio);
+
 		for (int i = 0; i < taskFields.Length; i++)
 		{
 			int j = i;
-			taskFields[i].Button.onClick.AddListener(() => OnButtonClick(j));
+			taskFields[i].AddListener(() => OnButtonClick(j));
 		}
 	}
 
@@ -54,37 +60,63 @@ public class Task1 : MonoBehaviour
 	private void PopulateFieldData(Task1Question data)
 	{
 		List<string> answers = data.Options;
-		int biggestValue = 0;
 
-		TaskField[] shuffledTexts = Utils.NewShuffled(taskFields);
+		TaskButton[] shuffledTexts = Utils.NewShuffled(taskFields);
 
 		for (int i = 0; i < answers.Count; i++)
 		{
 			if (!string.IsNullOrEmpty(answers[i]))
 			{
-				shuffledTexts[i].TmpText.text = answers[i];
-				shuffledTexts[i].HasContext();
-
 				int x = int.Parse(answers[i]);
-				if (x > biggestValue)
+
+				shuffledTexts[i].SetContext(answers[i]);
+
+				if (answers[i] == data.CorrectAnswer)
 				{
-					biggestValue = x;
+					correctAnswer = data.CorrectAnswer;
 					correctAnswerTMP = shuffledTexts[i].TmpText;
 				}
+
 			}
 			else
 			{
 				Debug.LogError($"Options for answers can't be empty. At: {data}");
 			}
 		}
+
+		PlayNumberAudio();
+	}
+
+	private IEnumerator AudioNumberQueue()
+	{
+		PLAYBACK_STATE state = PLAYBACK_STATE.PLAYING;
+
+		while (state != PLAYBACK_STATE.STOPPED)
+		{
+			fModInstance.getPlaybackState(out state);
+			yield return null;
+		}
+
+		fModInstance.release();
+		FMODUnity.RuntimeManager.PlayOneShot($"event:/VO/VO {correctAnswer}");
+	}
+
+	private void PlayNumberAudio()
+	{
+		fModInstance = FMODUnity.RuntimeManager.CreateInstance($"event:/VO/VO Number Prompt");
+		fModInstance.start();
+		StartCoroutine(AudioNumberQueue());
+
 	}
 
 	private void OnDisable()
 	{
+		replayButton.onClick.RemoveAllListeners();
+
 		for (int i = 0; i < taskFields.Length; i++)
 		{
 			int j = i;
-			taskFields[i].Button.onClick.RemoveListener(() => OnButtonClick(j));
+			taskFields[i].RemoveListener(() => OnButtonClick(j));
 		}
 	}
 }

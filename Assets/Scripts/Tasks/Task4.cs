@@ -55,6 +55,12 @@ public class Task4 : MonoBehaviour, IKeyboard
 		numberCountNeeded = correctAnswer.Length;
 		canListen = true;
 
+		PlayQuestionAudio();
+	}
+
+	private void PlayQuestionAudio()
+	{
+		FMODUnity.RuntimeManager.PlayOneShot($"event:/VO/VO Type Answer");
 	}
 
 	public void SelectNumber(int n)

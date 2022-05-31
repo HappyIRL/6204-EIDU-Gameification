@@ -11,7 +11,7 @@ public class TaskHandler : MonoBehaviour
 
 	public static TaskHandler Instance { get; private set; }
 
-	private int activeTask;
+	private int activeTask = -1;
 
 	private void Awake()
 	{
@@ -32,7 +32,7 @@ public class TaskHandler : MonoBehaviour
 			Debug.LogError($"List of tasksInOrder needs to be populated, at: {this}" );
 		}
 
-		tasksInOrder[0].SetActive(true);
+		NextTask();
 	}
 
 	public void CompleteTask()

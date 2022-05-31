@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0420017cffdd79f4a96af7dffa2b9724, type: 3}
-  m_Name: Question3
+  m_Name: Task5Data
   m_EditorClassIdentifier: 
   isSubstraction: 1
-  firstNumber: 423
-  secondNumber: 231
+  firstNumber: 4
+  secondNumber: 2

@@ -39,6 +39,13 @@ public class Task3 : MonoBehaviour, IKeyboard
 		numberCountNeeded = answerText.text.Length;
 		answerText.text = "";
 		canListen = true;
+
+		PlayQuestionAudio();
+	}
+
+	private void PlayQuestionAudio()
+	{
+		FMODUnity.RuntimeManager.PlayOneShot($"event:/VO/VO Type Answer");
 	}
 
 	private void OnCorrectAnswer()

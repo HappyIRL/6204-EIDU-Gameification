@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Task2 : MonoBehaviour
 {
-	[SerializeField] private TaskField[] taskFields = new TaskField[4];
+	[SerializeField] private TaskButton[] taskFields = new TaskButton[4];
 	[SerializeField] private List<Task2Question> questions = new List<Task2Question>();
+	[SerializeField] private Button replayButton;
 
 	private int questionIndex;
 	private int correctAnswerIndex;
@@ -15,10 +15,13 @@ public class Task2 : MonoBehaviour
 	{
 		PopulateButtonsData(questions[0]);
 
+		replayButton.onClick.AddListener(PlayQuestionAudio);
+
+
 		for (int i = 0; i < taskFields.Length; i++)
 		{
 			int j = i;
-			taskFields[i].Button.onClick.AddListener(() => OnButtonClick(j));
+			taskFields[i].AddListener(() => OnButtonClick(j));
 		}
 	}
 
@@ -31,9 +34,10 @@ public class Task2 : MonoBehaviour
 		{
 			if (!string.IsNullOrEmpty(answers[i]))
 			{
-				taskFields[i].TmpText.text = answers[i];
-				taskFields[i].HasContext();
+				taskFields[i].SetContext(answers[i]);
+
 				int x = int.Parse(answers[i]);
+
 				if (x > biggestValue)
 				{
 					biggestValue = x;
@@ -41,6 +45,12 @@ public class Task2 : MonoBehaviour
 				}
 			}
 		}
+
+		PlayQuestionAudio();
+	}
+	private void PlayQuestionAudio()
+	{
+		FMODUnity.RuntimeManager.PlayOneShot($"event:/VO/VO Bigest Number");
 	}
 
 	private void OnButtonClick(int i)
@@ -73,10 +83,12 @@ public class Task2 : MonoBehaviour
 
 	private void OnDisable()
 	{
+		replayButton.onClick.RemoveAllListeners();
+
 		for (int i = 0; i < taskFields.Length; i++)
 		{
 			int j = i;
-			taskFields[i].Button.onClick.RemoveListener(() => OnButtonClick(j));
+			taskFields[i].RemoveListener(() => OnButtonClick(j));
 		}
 	}
 }

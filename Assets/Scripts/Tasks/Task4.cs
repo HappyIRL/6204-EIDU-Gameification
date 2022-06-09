@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Task4 : MonoBehaviour, IKeyboard
 {
 	[SerializeField] private TMP_Text equationTmpText;
 	[SerializeField] private TMP_Text answerText;
 	[SerializeField] private List<Task4Question> questions = new List<Task4Question>();
+	[SerializeField] private Button replayButton;
 
 
 	private List<int> savedNumbers = new();
@@ -21,6 +23,8 @@ public class Task4 : MonoBehaviour, IKeyboard
 	private void OnEnable()
 	{
 		PopulateFieldData(questions[0]);
+
+		replayButton.onClick.AddListener(PlayQuestionAudio);
 	}
 
 	private IEnumerator NextQuestion()
@@ -116,5 +120,10 @@ public class Task4 : MonoBehaviour, IKeyboard
 	private void OnCorrectAnswer()
 	{
 		print("yay");
+	}
+
+	private void OnDisable()
+	{
+		replayButton.onClick.RemoveAllListeners();
 	}
 }

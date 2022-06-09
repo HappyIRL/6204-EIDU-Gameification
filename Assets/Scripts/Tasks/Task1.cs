@@ -12,9 +12,7 @@ public class Task1 : MonoBehaviour
 	[SerializeField] private Button replayButton;
 
 	private int questionIndex;
-    private FMOD.Studio.EventInstance fModInstance;
 	private TMP_Text correctAnswerTMP;
-	private string correctAnswer;
 
 	private void Start()
 	{
@@ -73,10 +71,8 @@ public class Task1 : MonoBehaviour
 
 				if (answers[i] == data.CorrectAnswer)
 				{
-					correctAnswer = data.CorrectAnswer;
 					correctAnswerTMP = shuffledTexts[i].TmpText;
 				}
-
 			}
 			else
 			{
@@ -87,8 +83,11 @@ public class Task1 : MonoBehaviour
 		PlayNumberAudio();
 	}
 
-	private IEnumerator AudioNumberQueue()
+	private IEnumerator StartAndAwaitAudioClipFinish(string audioClip)
 	{
+		FMOD.Studio.EventInstance fModInstance = FMODUnity.RuntimeManager.CreateInstance($"event:/{audioClip}");
+		fModInstance.start();
+
 		PLAYBACK_STATE state = PLAYBACK_STATE.PLAYING;
 
 		while (state != PLAYBACK_STATE.STOPPED)
@@ -98,15 +97,11 @@ public class Task1 : MonoBehaviour
 		}
 
 		fModInstance.release();
-		FMODUnity.RuntimeManager.PlayOneShot($"event:/VO/VO {correctAnswer}");
 	}
 
 	private void PlayNumberAudio()
 	{
-		fModInstance = FMODUnity.RuntimeManager.CreateInstance($"event:/VO/VO Number Prompt");
-		fModInstance.start();
-		StartCoroutine(AudioNumberQueue());
-
+		StartCoroutine(StartAndAwaitAudioClipFinish("VO/VO Number Prompt"));
 	}
 
 	private void OnDisable()

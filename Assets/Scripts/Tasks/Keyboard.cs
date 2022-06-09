@@ -15,7 +15,6 @@ public class Keyboard : MonoBehaviour
 
 	private void Awake()
 	{
-		
 		for (int i = 0; i < buttons.Length; i++)
 		{
 			int j = i;

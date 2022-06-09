@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TaskHandler : MonoBehaviour
 {
 	[SerializeField] private List<GameObject> tasksInOrder = new List<GameObject>();
 	[SerializeField] private GameObject keyboardGO;
 	[SerializeField] private ProgressionMap progressMap;
+	[SerializeField] private GameObject finishScreen;
+	[SerializeField] private Button restartButton;
+	
 	private Keyboard keyboard;
 
 	public static TaskHandler Instance { get; private set; }
@@ -32,7 +36,7 @@ public class TaskHandler : MonoBehaviour
 			Debug.LogError($"List of tasksInOrder needs to be populated, at: {this}" );
 		}
 
-		NextTask();
+		NextTask(false);
 	}
 
 	public void CompleteTask()
@@ -47,12 +51,15 @@ public class TaskHandler : MonoBehaviour
 			return;
 		}
 
-		NextTask();
+		NextTask(true);
 	}
 
-	private void NextTask()
+	private void NextTask(bool isProgression)
 	{
-		progressMap.NextStep(ShowNextTask);
+		if(isProgression)
+			progressMap.NextStep(ShowNextTask);
+		else
+			ShowNextTask();
 	}
 
 	private void ShowNextTask()
@@ -69,9 +76,16 @@ public class TaskHandler : MonoBehaviour
 		activeTask++;
 	}
 
+	public void RestartTest()
+	{
+		finishScreen.SetActive(false);
+		activeTask = 0;
+		NextTask(false);
+	}
+
 	private void OnAllTasksComplete()
 	{
-		keyboardGO.SetActive(false);
-		Debug.Log("All tasks complete");
+		FMODUnity.RuntimeManager.PlayOneShot("event:/VO/VO Completed Test");
+		finishScreen.SetActive(true);
 	}
 }

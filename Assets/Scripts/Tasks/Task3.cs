@@ -11,6 +11,7 @@ public class Task3 : MonoBehaviour, IKeyboard
 {
 	[SerializeField] private List<Task3Question> questions = new List<Task3Question>();
 	[SerializeField] private TMP_Text[] tmpTexts = new TMP_Text[4];
+	[SerializeField] private Button replayButton;
 
 	private string correctAnswer = "";
 	private int numberCountNeeded;
@@ -22,6 +23,8 @@ public class Task3 : MonoBehaviour, IKeyboard
 	private void Awake()
 	{
 		PopulateFieldData(questions[0]);
+
+		replayButton.onClick.AddListener(PlayQuestionAudio);
 	}
 
 	private void PopulateFieldData(Task3Question data)
@@ -119,5 +122,10 @@ public class Task3 : MonoBehaviour, IKeyboard
 
 			answerText.text = new string(items);
 		}
+	}
+
+	private void OnDisable()
+	{
+		replayButton.onClick.RemoveAllListeners();
 	}
 }

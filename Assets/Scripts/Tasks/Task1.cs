@@ -47,6 +47,14 @@ public class Task1 : MonoBehaviour
 		questionIndex++;
 	}
 
+	private void ResetFieldData()
+	{
+		for (int i = 0; i < taskFields.Length; i++)
+		{
+			taskFields[i].SetContext("", false);
+		}
+	}
+
 	private void OnButtonClick(int index)
 	{
 		if (string.IsNullOrEmpty(taskFields[index].TmpText.text) || taskCompleted)
@@ -68,6 +76,8 @@ public class Task1 : MonoBehaviour
 
 	private void PopulateFieldData(Task1Question data)
 	{
+		ResetFieldData();
+
 		List<string> answers = data.Options;
 
 		TaskButton[] shuffledTexts = Utils.NewShuffled(taskFields);
@@ -78,7 +88,7 @@ public class Task1 : MonoBehaviour
 			{
 				int x = int.Parse(answers[i]);
 
-				shuffledTexts[i].SetContext(answers[i]);
+				shuffledTexts[i].SetContext(answers[i], true);
 
 				if (answers[i] == data.CorrectAnswer)
 				{

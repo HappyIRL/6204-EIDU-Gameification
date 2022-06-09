@@ -31,6 +31,8 @@ public class Task2 : MonoBehaviour
 
 	private void PopulateButtonsData(Task2Question data)
 	{
+		ResetFieldData();
+
 		string[] answers = Utils.NewShuffled(data.NumberOptions);
 		float biggestValue = Mathf.NegativeInfinity;
 
@@ -38,7 +40,7 @@ public class Task2 : MonoBehaviour
 		{
 			if (!string.IsNullOrEmpty(answers[i]))
 			{
-				taskFields[i].SetContext(answers[i]);
+				taskFields[i].SetContext(answers[i], true);
 
 				int x = int.Parse(answers[i]);
 
@@ -52,6 +54,15 @@ public class Task2 : MonoBehaviour
 
 		PlayQuestionAudio();
 	}
+
+	private void ResetFieldData()
+	{
+		for (int i = 0; i < taskFields.Length; i++)
+		{
+			taskFields[i].SetContext("", false);
+		}
+	}
+
 	private void PlayQuestionAudio()
 	{
 		FMODUnity.RuntimeManager.PlayOneShot($"event:/VO/VO Bigest Number");

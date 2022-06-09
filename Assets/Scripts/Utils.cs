@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Random = System.Random;
 
 public static class Utils
@@ -46,4 +47,19 @@ public static class Utils
 
 		return newList;
 	}
+
+	/// <summary>
+	/// if buttonFlipped is false, closes button, if true, opens button
+	/// </summary>
+	public static void ButtonFlip(GameObject target, bool buttonFlipped = false)
+    {
+        if (!buttonFlipped)
+        {
+			// close button
+        }
+        else
+        {
+			// open button
+        }
+    }
 }

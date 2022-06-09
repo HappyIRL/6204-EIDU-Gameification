@@ -395,6 +395,10 @@ PrefabInstance:
       propertyPath: imageField
       value: 
       objectReference: {fileID: 715886986}
+    - target: {fileID: 895422706865198771, guid: 2f23c4370aa964045b88179e159ce797, type: 3}
+      propertyPath: restartButton
+      value: 
+      objectReference: {fileID: 1869904223}
     - target: {fileID: 895422706916597132, guid: 2f23c4370aa964045b88179e159ce797, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -936,6 +940,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1869904223 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5444627091059688815, guid: 2f23c4370aa964045b88179e159ce797, type: 3}
+  m_PrefabInstance: {fileID: 1045965680}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1941851266 stripped

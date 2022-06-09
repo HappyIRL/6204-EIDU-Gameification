@@ -244,6 +244,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1997365135, guid: 2f23c4370aa964045b88179e159ce797, type: 3}
+      propertyPath: slider
+      value: 
+      objectReference: {fileID: 1427686896}
     - target: {fileID: 1950497503550602248, guid: 2f23c4370aa964045b88179e159ce797, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -345,6 +349,7 @@ GameObject:
   - component: {fileID: 1312275767}
   - component: {fileID: 1312275766}
   - component: {fileID: 1312275768}
+  - component: {fileID: 1312275769}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -423,6 +428,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attenuationObject: {fileID: 0}
+--- !u!114 &1312275769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1312275764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: -1
+  OverrideMaxDistance: -1
 --- !u!1 &1317197995
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,3 +525,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1427686896 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1618982936, guid: 2f23c4370aa964045b88179e159ce797, type: 3}
+  m_PrefabInstance: {fileID: 1045965680}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

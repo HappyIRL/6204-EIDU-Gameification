@@ -949,7 +949,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
 --- !u!1 &2414954927041889314
 GameObject:
   m_ObjectHideFlags: 0
@@ -1715,7 +1715,7 @@ PrefabInstance:
       objectReference: {fileID: 5444627091059688815}
     - target: {fileID: 1856591838, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
       propertyPath: questions.Array.size
-      value: 12
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1856591838, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
       propertyPath: questions.Array.data[0]
@@ -1724,7 +1724,7 @@ PrefabInstance:
     - target: {fileID: 1856591838, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
       propertyPath: questions.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: af44a2c55252ff04bbfd5f6274bb4499, type: 2}
+      objectReference: {fileID: 11400000, guid: 3b64266b8b9e7124593719dcabd0752b, type: 2}
     - target: {fileID: 1856591838, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
       propertyPath: questions.Array.data[2]
       value: 

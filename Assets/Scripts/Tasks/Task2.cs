@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,8 +12,9 @@ public class Task2 : MonoBehaviour
 
 	private int questionIndex;
 	private int correctAnswerIndex;
+	private bool taskCompleted;
 
-	private void Start()
+	private void OnEnable()
 	{
 		PopulateButtonsData(questions[0]);
 
@@ -53,23 +56,41 @@ public class Task2 : MonoBehaviour
 		FMODUnity.RuntimeManager.PlayOneShot($"event:/VO/VO Bigest Number");
 	}
 
+	private IEnumerator StartAndAwaitAudioClipFinish(string audioClip)
+	{
+		FMOD.Studio.EventInstance fModInstance = FMODUnity.RuntimeManager.CreateInstance($"event:/{audioClip}");
+		fModInstance.start();
+
+		PLAYBACK_STATE state = PLAYBACK_STATE.PLAYING;
+
+		while (state != PLAYBACK_STATE.STOPPED)
+		{
+			fModInstance.getPlaybackState(out state);
+			yield return null;
+		}
+
+		fModInstance.release();
+	}
+
 	private void OnButtonClick(int i)
 	{
-		if (string.IsNullOrEmpty(taskFields[i].TmpText.text))
+		if (string.IsNullOrEmpty(taskFields[i].TmpText.text) || taskCompleted)
 			return;
 
 		if (correctAnswerIndex == i)
 			OnCorrectAnswer();
 
-		NextQuestion();
+		StartCoroutine(NextQuestion());
 	}
 
-	private void NextQuestion()
+	private IEnumerator NextQuestion()
 	{
 		if (questionIndex >= questions.Count - 1)
 		{
+			taskCompleted = true;
+			yield return StartCoroutine(StartAndAwaitAudioClipFinish("VO/VO Excellent"));
 			TaskHandler.Instance.CompleteTask();
-			return;
+			yield break;
 		}
 
 		PopulateButtonsData(questions[questionIndex + 1]);

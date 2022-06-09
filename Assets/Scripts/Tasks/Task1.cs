@@ -11,14 +11,19 @@ public class Task1 : MonoBehaviour
 	[SerializeField] private List<Task1Question> questions = new List<Task1Question>();
 	[SerializeField] private Button replayButton;
 
+	private FMOD.Studio.EventInstance fModInstance;
 	private int questionIndex;
 	private TMP_Text correctAnswerTMP;
+	private string correctAnswer;
+	private bool taskCompleted;
 
-	private void Start()
+	private void OnEnable()
 	{
+		taskCompleted = false;
+
 		PopulateFieldData(questions[0]);
 
-		replayButton.onClick.AddListener(PlayNumberAudio);
+		replayButton.onClick.AddListener(OnClick_RepeatAudio);
 
 		for (int i = 0; i < taskFields.Length; i++)
 		{
@@ -27,12 +32,14 @@ public class Task1 : MonoBehaviour
 		}
 	}
 
-	private void NextQuestion()
+	private IEnumerator NextQuestion()
 	{
 		if (questionIndex >= questions.Count - 1)
 		{
+			taskCompleted = true;
+			yield return StartCoroutine(StartAndAwaitAudioClipFinish("VO/VO Completed Task"));
 			TaskHandler.Instance.CompleteTask();
-			return;
+			yield break;
 		}
 
 		PopulateFieldData(questions[questionIndex + 1]);
@@ -41,13 +48,16 @@ public class Task1 : MonoBehaviour
 
 	private void OnButtonClick(int index)
 	{
-		if (string.IsNullOrEmpty(taskFields[index].TmpText.text))
+		if (string.IsNullOrEmpty(taskFields[index].TmpText.text) || taskCompleted)
 			return;
 
 		if (taskFields[index].TmpText == correctAnswerTMP)
 			OnCorrectAnswer();
 
-		NextQuestion();
+		fModInstance.stop(STOP_MODE.IMMEDIATE);
+		fModInstance.release();
+
+		StartCoroutine(NextQuestion());
 	}
 
 	private void OnCorrectAnswer()
@@ -72,6 +82,7 @@ public class Task1 : MonoBehaviour
 				if (answers[i] == data.CorrectAnswer)
 				{
 					correctAnswerTMP = shuffledTexts[i].TmpText;
+					correctAnswer = data.CorrectAnswer;
 				}
 			}
 			else
@@ -80,28 +91,37 @@ public class Task1 : MonoBehaviour
 			}
 		}
 
-		PlayNumberAudio();
+		StartCoroutine(PlayNumberAudio());
 	}
 
 	private IEnumerator StartAndAwaitAudioClipFinish(string audioClip)
 	{
-		FMOD.Studio.EventInstance fModInstance = FMODUnity.RuntimeManager.CreateInstance($"event:/{audioClip}");
+		fModInstance = FMODUnity.RuntimeManager.CreateInstance($"event:/{audioClip}");
 		fModInstance.start();
 
 		PLAYBACK_STATE state = PLAYBACK_STATE.PLAYING;
 
-		while (state != PLAYBACK_STATE.STOPPED)
+		while (state != PLAYBACK_STATE.STOPPED && fModInstance.isValid())
 		{
 			fModInstance.getPlaybackState(out state);
 			yield return null;
 		}
-
-		fModInstance.release();
 	}
 
-	private void PlayNumberAudio()
+	private void OnClick_RepeatAudio()
 	{
-		StartCoroutine(StartAndAwaitAudioClipFinish("VO/VO Number Prompt"));
+		StartCoroutine(PlayNumberAudio());
+	}
+
+	private IEnumerator PlayNumberAudio()
+	{
+		yield return StartCoroutine(StartAndAwaitAudioClipFinish("VO/VO Number Prompt"));
+
+		if (fModInstance.isValid())
+		{
+			FMODUnity.RuntimeManager.PlayOneShot($"event:/VO/VO {correctAnswer}");
+			fModInstance.release();
+		}
 	}
 
 	private void OnDisable()

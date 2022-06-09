@@ -45,7 +45,7 @@ public class TaskHandler : MonoBehaviour
 		taskGO.SetActive(false);
 		keyboardGO.SetActive(false);
 
-		if (activeTask >= tasksInOrder.Count - 1)
+		if (IsLastTask())
 		{
 			OnAllTasksComplete();
 			return;
@@ -54,10 +54,20 @@ public class TaskHandler : MonoBehaviour
 		NextTask(true);
 	}
 
+	public bool IsLastTask()
+	{
+		if (activeTask >= tasksInOrder.Count - 1)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 	private void NextTask(bool isProgression)
 	{
 		if(isProgression)
-			progressMap.NextStep(ShowNextTask);
+			StartCoroutine(progressMap.NextStep(ShowNextTask));
 		else
 			ShowNextTask();
 	}

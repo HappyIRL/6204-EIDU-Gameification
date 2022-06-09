@@ -18,24 +18,17 @@ public class TaskButton : MonoBehaviour
 	[SerializeField] private Sprite filled;
     [SerializeField] private Sprite nonFilled;
 
-    private Image imageField;
-    private TMP_Text tmpText;
+    [SerializeField] private Image imageField;
+	[SerializeField] private TMP_Text tmpText;
     private FMOD.Studio.EventInstance fModInstance;
     private bool hasContext = false;
     private int context;
 
-    private void Start()
+    private void OnEnable()
     {
-	    fModInstance = FMODUnity.RuntimeManager.CreateInstance($"event:/{fMODEvent}");
-    }
-
-    private void Awake()
-    {
-	    imageField = GetComponent<Image>();
 	    button = GetComponent<Button>();
         button.onClick.AddListener(OnClick);
-	    tmpText = GetComponentInChildren<TMP_Text>();
-	    imageField.sprite = filled;
+        fModInstance = FMODUnity.RuntimeManager.CreateInstance($"event:/{fMODEvent}");
     }
 
     public void OnClick()
@@ -72,7 +65,7 @@ public class TaskButton : MonoBehaviour
 	    button.onClick.RemoveListener(action);
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
 	    fModInstance.release();
     }

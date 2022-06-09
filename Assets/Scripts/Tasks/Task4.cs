@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMOD.Studio;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,16 +32,36 @@ public class Task4 : MonoBehaviour, IKeyboard
 	{
 		canListen = false;
 		yield return new WaitForSeconds(1);
-		ResetAnswerData();
 
 		if (questionIndex >= questions.Count - 1)
 		{
+			if (!TaskHandler.Instance.IsLastTask())
+				yield return StartCoroutine(StartAndAwaitAudioClipFinish("VO/VO Great"));
+
 			TaskHandler.Instance.CompleteTask();
 			yield break;
 		}
 
+		ResetAnswerData();
+
 		PopulateFieldData(questions[questionIndex + 1]);
 		questionIndex++;
+	}
+
+	private IEnumerator StartAndAwaitAudioClipFinish(string audioClip)
+	{
+		FMOD.Studio.EventInstance fModInstance = FMODUnity.RuntimeManager.CreateInstance($"event:/{audioClip}");
+		fModInstance.start();
+
+		PLAYBACK_STATE state = PLAYBACK_STATE.PLAYING;
+
+		while (state != PLAYBACK_STATE.STOPPED)
+		{
+			fModInstance.getPlaybackState(out state);
+			yield return null;
+		}
+
+		fModInstance.release();
 	}
 
 	private void PopulateFieldData(Task4Question data)
@@ -83,6 +104,9 @@ public class Task4 : MonoBehaviour, IKeyboard
 
 	public void UndoNumber()
 	{
+		if (!canListen)
+			return;
+
 		if (savedNumbers.Count != 0)
 		{
 			savedNumbers.RemoveAt(savedNumbers.Count - 1);

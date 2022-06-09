@@ -9,17 +9,13 @@ public class Task0 : MonoBehaviour
 
 	private FMOD.Studio.EventInstance fModInstance;
 
-	private void Awake()
-	{
-		startButton.onClick.AddListener(OnStartClick);
-		replayButton.onClick.AddListener(PlayTaskAudio);
-	}
-
-	private void Start()
+	private void OnEnable()
     {
 	    fModInstance = FMODUnity.RuntimeManager.CreateInstance("event:/VO/VO Start Prompt");
 	    PlayTaskAudio();
-    }
+	    startButton.onClick.AddListener(OnStartClick);
+	    replayButton.onClick.AddListener(PlayTaskAudio);
+	}
 
 	private void PlayTaskAudio()
 	{
@@ -38,5 +34,11 @@ public class Task0 : MonoBehaviour
 		fModInstance.release();
 
 		TaskHandler.Instance.CompleteTask();
+	}
+
+	private void OnDisable()
+	{
+		startButton.onClick.RemoveAllListeners();
+		replayButton.onClick.RemoveAllListeners();
 	}
 }

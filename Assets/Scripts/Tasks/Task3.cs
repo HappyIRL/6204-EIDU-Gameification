@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using FMOD.Studio;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,7 +21,7 @@ public class Task3 : MonoBehaviour, IKeyboard
 	private List<int> savedNumbers = new();
 	private bool canListen;
 
-	private void Awake()
+	private void OnEnable()
 	{
 		PopulateFieldData(questions[0]);
 
@@ -62,13 +63,14 @@ public class Task3 : MonoBehaviour, IKeyboard
 
 		yield return new WaitForSeconds(1);
 
-		ResetAnswerData();
-
 		if (questionIndex >= questions.Count - 1)
 		{
+			yield return StartCoroutine(StartAndAwaitAudioClipFinish("VO/VO New One"));
 			TaskHandler.Instance.CompleteTask();
 			yield break;
 		}
+
+		ResetAnswerData();
 
 		PopulateFieldData(questions[questionIndex + 1]);
 		questionIndex++;
@@ -111,8 +113,27 @@ public class Task3 : MonoBehaviour, IKeyboard
 		}
 	}
 
+	private IEnumerator StartAndAwaitAudioClipFinish(string audioClip)
+	{
+		FMOD.Studio.EventInstance fModInstance = FMODUnity.RuntimeManager.CreateInstance($"event:/{audioClip}");
+		fModInstance.start();
+
+		PLAYBACK_STATE state = PLAYBACK_STATE.PLAYING;
+
+		while (state != PLAYBACK_STATE.STOPPED)
+		{
+			fModInstance.getPlaybackState(out state);
+			yield return null;
+		}
+
+		fModInstance.release();
+	}
+
 	public void UndoNumber()
 	{
+		if (!canListen)
+			return;
+
 		if (savedNumbers.Count != 0)
 		{
 			savedNumbers.RemoveAt(savedNumbers.Count - 1);

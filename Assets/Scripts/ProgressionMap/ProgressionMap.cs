@@ -14,15 +14,41 @@ public class ProgressionMap : MonoBehaviour
 
 	private FMOD.Studio.EventInstance fModInstance;
 
-	private int segmentIndex = 0;
+	private int segmentIndex;
 
-	public void NextStep(Action callback)
+	public IEnumerator NextStep(Action callback)
 	{
 		background.SetActive(true);
 		progressionIcon.SetActive(true);
 
+		if (segmentIndex == 0)
+			yield return StartCoroutine(StartAndAwaitAudioClipFinish("VO/VO Intro"));
+
 		StartCoroutine(MoveByDistanceOnPath(paths[segmentIndex],2f, callback));
+
+		if (paths.Count == segmentIndex - 1)
+		{
+			segmentIndex = 0;
+			yield break;
+		}
+
 		segmentIndex++;
+	}
+
+	private IEnumerator StartAndAwaitAudioClipFinish(string audioClip)
+	{
+		FMOD.Studio.EventInstance fModInstance = FMODUnity.RuntimeManager.CreateInstance($"event:/{audioClip}");
+		fModInstance.start();
+
+		PLAYBACK_STATE state = PLAYBACK_STATE.PLAYING;
+
+		while (state != PLAYBACK_STATE.STOPPED)
+		{
+			fModInstance.getPlaybackState(out state);
+			yield return null;
+		}
+
+		fModInstance.release();
 	}
 
 	private IEnumerator MoveByDistanceOnPath(PathCreator pathCreator, float totalMoveTime, Action callback)

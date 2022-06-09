@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using FMOD.Studio;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +11,7 @@ public class Task4 : MonoBehaviour, IKeyboard
 {
 	[SerializeField] private TMP_Text equationTmpText;
 	[SerializeField] private TMP_Text answerText;
-	[SerializeField] private List<Task4Question> questions = new List<Task4Question>();
+	[SerializeField, InlineEditor] private List<Task4Question> questions = new List<Task4Question>();
 	[SerializeField] private Button replayButton;
 
 

@@ -253,7 +253,7 @@ MonoBehaviour:
       - 0
       globalNormalsAngle: 0
       flipNormals: 0
-    vertexPathUpToDate: 0
+    vertexPathUpToDate: 1
     vertexPathMaxAngleError: 0.3
     vertexPathMinVertexSpacing: 0.01
     showTransformTool: 1
@@ -338,7 +338,7 @@ MonoBehaviour:
       - 0
       globalNormalsAngle: 0
       flipNormals: 0
-    vertexPathUpToDate: 0
+    vertexPathUpToDate: 1
     vertexPathMaxAngleError: 0.3
     vertexPathMinVertexSpacing: 0.01
     showTransformTool: 1
@@ -423,7 +423,7 @@ MonoBehaviour:
       - 0
       globalNormalsAngle: 0
       flipNormals: 0
-    vertexPathUpToDate: 0
+    vertexPathUpToDate: 1
     vertexPathMaxAngleError: 0.3
     vertexPathMinVertexSpacing: 0.01
     showTransformTool: 1
@@ -508,7 +508,7 @@ MonoBehaviour:
       - 0
       globalNormalsAngle: 0
       flipNormals: 0
-    vertexPathUpToDate: 0
+    vertexPathUpToDate: 1
     vertexPathMaxAngleError: 0.3
     vertexPathMinVertexSpacing: 0.01
     showTransformTool: 1
@@ -824,7 +824,7 @@ MonoBehaviour:
       - 0
       globalNormalsAngle: 0
       flipNormals: 0
-    vertexPathUpToDate: 0
+    vertexPathUpToDate: 1
     vertexPathMaxAngleError: 0.3
     vertexPathMinVertexSpacing: 0.01
     showTransformTool: 1
@@ -1713,6 +1713,58 @@ PrefabInstance:
       propertyPath: replayButton
       value: 
       objectReference: {fileID: 5444627091059688815}
+    - target: {fileID: 1856591838, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: questions.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856591838, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: questions.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1e51ec968a56e1c45b7c113bb96f7e95, type: 2}
+    - target: {fileID: 1856591838, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: questions.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: af44a2c55252ff04bbfd5f6274bb4499, type: 2}
+    - target: {fileID: 1856591838, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: questions.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 91d5a23da6081e743a419cf791ac21d1, type: 2}
+    - target: {fileID: 1856591838, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: questions.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 894fe02a86556d747989914a8f671538, type: 2}
+    - target: {fileID: 1856591838, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: questions.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: e6ca83e84900cb94e8bba23de604c05f, type: 2}
+    - target: {fileID: 1856591838, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: questions.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 13ac2604bde284847baad5b7dccd4b2e, type: 2}
+    - target: {fileID: 1856591838, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: questions.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4701919ee2b1a16489ebe4293b66e581, type: 2}
+    - target: {fileID: 1856591838, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: questions.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f29270141aeb114aaacfd9a46465bc5, type: 2}
+    - target: {fileID: 1856591838, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: questions.Array.data[8]
+      value: 
+      objectReference: {fileID: 11400000, guid: f13c30249cb01ab408a7028163dfd9d9, type: 2}
+    - target: {fileID: 1856591838, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: questions.Array.data[9]
+      value: 
+      objectReference: {fileID: 11400000, guid: 007e8ffa6501f6e45b2f100a1d63eccd, type: 2}
+    - target: {fileID: 1856591838, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: questions.Array.data[10]
+      value: 
+      objectReference: {fileID: 11400000, guid: 41fbeb9dc902e994c9b6ea72806f5481, type: 2}
+    - target: {fileID: 1856591838, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: questions.Array.data[11]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3b64266b8b9e7124593719dcabd0752b, type: 2}
     - target: {fileID: 2053296199, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
       propertyPath: tmpText
       value: 

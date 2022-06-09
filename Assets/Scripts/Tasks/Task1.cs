@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using FMOD.Studio;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ using UnityEngine.UI;
 public class Task1 : MonoBehaviour
 {
 	[SerializeField] private TaskButton[] taskFields = new TaskButton[9];
-	[SerializeField] private List<Task1Question> questions = new List<Task1Question>();
+	[SerializeField, InlineEditor, TableList] private List<Task1Question> questions = new List<Task1Question>();
 	[SerializeField] private Button replayButton;
 
 	private FMOD.Studio.EventInstance fModInstance;

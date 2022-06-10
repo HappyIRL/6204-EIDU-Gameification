@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44402242, g: 0.49316543, b: 0.5722324, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -332,18 +332,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 1950497504612665803, guid: 2f23c4370aa964045b88179e159ce797, type: 3}
-      propertyPath: questions.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1950497504612665803, guid: 2f23c4370aa964045b88179e159ce797, type: 3}
-      propertyPath: questions.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 3b64266b8b9e7124593719dcabd0752b, type: 2}
-    - target: {fileID: 1950497504612665803, guid: 2f23c4370aa964045b88179e159ce797, type: 3}
-      propertyPath: questions.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 3b64266b8b9e7124593719dcabd0752b, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f23c4370aa964045b88179e159ce797, type: 3}
 --- !u!1 &1312275764

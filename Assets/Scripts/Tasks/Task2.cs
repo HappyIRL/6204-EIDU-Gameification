@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Task2 : MonoBehaviour
 {
 	[SerializeField] private TaskButton[] taskFields = new TaskButton[4];
-	[SerializeField, InlineEditor] private List<Task2Question> questions = new List<Task2Question>();
+	[SerializeField, InlineEditor, TableList] private List<Task2Question> questions = new List<Task2Question>();
 	[SerializeField] private Button replayButton;
 
 	private int questionIndex;

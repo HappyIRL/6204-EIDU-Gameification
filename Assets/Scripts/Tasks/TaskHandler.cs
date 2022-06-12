@@ -10,6 +10,8 @@ public class TaskHandler : MonoBehaviour
 	[SerializeField] private ProgressionMap progressMap;
 	[SerializeField] private GameObject finishScreen;
 	[SerializeField] private Button restartButton;
+	[SerializeField] private GameObject goldStar;
+    [SerializeField, Range(0.1f, 3f)] private float starTimer;
 	
 	private Keyboard keyboard;
 
@@ -17,7 +19,7 @@ public class TaskHandler : MonoBehaviour
 
 	private int activeTask = -1;
 
-	private void Awake()
+    private void Awake()
 	{
 		if (Instance == null)
 			Instance = this;
@@ -98,4 +100,12 @@ public class TaskHandler : MonoBehaviour
 		FMODUnity.RuntimeManager.PlayOneShot("event:/VO/VO Completed Test");
 		finishScreen.SetActive(true);
 	}
+
+	public IEnumerator SummonStar()
+    {
+		goldStar.SetActive(true);
+		yield return new WaitForSeconds(starTimer);
+		goldStar.SetActive(false );
+		yield return null;
+    }
 }

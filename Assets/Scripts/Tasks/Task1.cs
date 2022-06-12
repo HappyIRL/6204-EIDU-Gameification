@@ -72,6 +72,7 @@ public class Task1 : MonoBehaviour
 	private void OnCorrectAnswer()
 	{
 		print("yay");
+		StartCoroutine(TaskHandler.Instance.SummonStar());
 	}
 
 	private void PopulateFieldData(Task1Question data)

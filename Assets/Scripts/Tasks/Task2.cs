@@ -112,6 +112,7 @@ public class Task2 : MonoBehaviour
 	private void OnCorrectAnswer()
 	{
 		print("yay");
+		StartCoroutine(TaskHandler.Instance.SummonStar());
 	}
 
 	private void OnDisable()

@@ -145,6 +145,7 @@ public class Task4 : MonoBehaviour, IKeyboard
 	private void OnCorrectAnswer()
 	{
 		print("yay");
+		StartCoroutine(TaskHandler.Instance.SummonStar());
 	}
 
 	private void OnDisable()

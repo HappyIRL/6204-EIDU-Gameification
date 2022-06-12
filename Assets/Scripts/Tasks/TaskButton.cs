@@ -49,14 +49,16 @@ public class TaskButton : MonoBehaviour
 	    callbacks.Add(action);
     }
 
-    public void SetContext(string ctx)
+    public void SetContext(string ctx, bool isFilled)
     {
 	    tmpText.text = ctx;
 
-	    context = int.Parse(ctx);
+	    if (!string.IsNullOrEmpty(ctx))
+		    int.TryParse(ctx, out context);
 
-        imageField.sprite = nonFilled;
-	    hasContext = true;
+	    imageField.sprite = isFilled ? nonFilled : filled;
+
+	    hasContext = isFilled;
     }
 
     public void RemoveListener(UnityAction action)

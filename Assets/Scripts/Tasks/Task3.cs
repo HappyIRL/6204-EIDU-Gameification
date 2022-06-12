@@ -56,6 +56,7 @@ public class Task3 : MonoBehaviour, IKeyboard
 	private void OnCorrectAnswer()
 	{
 		print("yay");
+		StartCoroutine(TaskHandler.Instance.SummonStar());
 	}
 
 	private IEnumerator NextQuestion()

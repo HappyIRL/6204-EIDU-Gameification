@@ -17,6 +17,7 @@ public class Task1 : MonoBehaviour
 	private TMP_Text correctAnswerTMP;
 	private string correctAnswer;
 	private bool taskCompleted;
+	private bool promptHasPlayed = false;
 
 	private void OnEnable()
 	{
@@ -127,6 +128,7 @@ public class Task1 : MonoBehaviour
 
 	private IEnumerator PlayNumberAudio()
 	{
+		// TODO: prompt should only play once!!!!
 		yield return StartCoroutine(StartAndAwaitAudioClipFinish("VO/VO Number Prompt"));
 
 		if (fModInstance.isValid())

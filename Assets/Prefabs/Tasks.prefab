@@ -273,6 +273,8 @@ MonoBehaviour:
   fMODEvent: SFX/ButtonMAS
   filled: {fileID: 21300000, guid: 1146d73901dbfef4abb6e0b22e4c63ff, type: 3}
   nonFilled: {fileID: 21300000, guid: b79fe304d7e73384cb0c7e316654a621, type: 3}
+  imageField: {fileID: 0}
+  tmpText: {fileID: 0}
 --- !u!1 &158129953
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,6 +413,8 @@ MonoBehaviour:
   fMODEvent: SFX/ButtonMAS
   filled: {fileID: 21300000, guid: 1f6b64472c9aae4419294898b4aa4ccd, type: 3}
   nonFilled: {fileID: 21300000, guid: ca30bbaacb21df44ca0ce8d1856eb06c, type: 3}
+  imageField: {fileID: 0}
+  tmpText: {fileID: 0}
 --- !u!1 &280230753
 GameObject:
   m_ObjectHideFlags: 0
@@ -940,6 +944,8 @@ MonoBehaviour:
   fMODEvent: SFX/ButtonMAS
   filled: {fileID: 21300000, guid: 1146d73901dbfef4abb6e0b22e4c63ff, type: 3}
   nonFilled: {fileID: 21300000, guid: b79fe304d7e73384cb0c7e316654a621, type: 3}
+  imageField: {fileID: 0}
+  tmpText: {fileID: 0}
 --- !u!1 &808021568
 GameObject:
   m_ObjectHideFlags: 0
@@ -1290,6 +1296,8 @@ MonoBehaviour:
   fMODEvent: SFX/ButtonMAS
   filled: {fileID: 21300000, guid: 1f6b64472c9aae4419294898b4aa4ccd, type: 3}
   nonFilled: {fileID: 21300000, guid: ca30bbaacb21df44ca0ce8d1856eb06c, type: 3}
+  imageField: {fileID: 0}
+  tmpText: {fileID: 0}
 --- !u!1 &1216874884
 GameObject:
   m_ObjectHideFlags: 0
@@ -1626,6 +1634,8 @@ MonoBehaviour:
   fMODEvent: SFX/ButtonMAS
   filled: {fileID: 21300000, guid: ce0b4726394ef7f4e9e741f484339cfc, type: 3}
   nonFilled: {fileID: 21300000, guid: cc5d2626f1e17a2448fa75057d86f886, type: 3}
+  imageField: {fileID: 0}
+  tmpText: {fileID: 0}
 --- !u!1 &1256149471
 GameObject:
   m_ObjectHideFlags: 0
@@ -1764,6 +1774,8 @@ MonoBehaviour:
   fMODEvent: SFX/ButtonMAS
   filled: {fileID: 21300000, guid: ce0b4726394ef7f4e9e741f484339cfc, type: 3}
   nonFilled: {fileID: 21300000, guid: cc5d2626f1e17a2448fa75057d86f886, type: 3}
+  imageField: {fileID: 0}
+  tmpText: {fileID: 0}
 --- !u!1 &1380930524
 GameObject:
   m_ObjectHideFlags: 0
@@ -1902,6 +1914,8 @@ MonoBehaviour:
   fMODEvent: SFX/ButtonMAS
   filled: {fileID: 21300000, guid: cba72c32b8a07444ca760acf70452c8e, type: 3}
   nonFilled: {fileID: 21300000, guid: 229a92c25c925ca489a5149191dc6fa4, type: 3}
+  imageField: {fileID: 0}
+  tmpText: {fileID: 0}
 --- !u!1 &1493000687
 GameObject:
   m_ObjectHideFlags: 0
@@ -2175,6 +2189,8 @@ MonoBehaviour:
   fMODEvent: SFX/ButtonMAS
   filled: {fileID: 21300000, guid: 1f6b64472c9aae4419294898b4aa4ccd, type: 3}
   nonFilled: {fileID: 21300000, guid: ca30bbaacb21df44ca0ce8d1856eb06c, type: 3}
+  imageField: {fileID: 0}
+  tmpText: {fileID: 0}
 --- !u!1 &1587855619
 GameObject:
   m_ObjectHideFlags: 0
@@ -2448,6 +2464,8 @@ MonoBehaviour:
   fMODEvent: SFX/ButtonMAS
   filled: {fileID: 21300000, guid: cba72c32b8a07444ca760acf70452c8e, type: 3}
   nonFilled: {fileID: 21300000, guid: 229a92c25c925ca489a5149191dc6fa4, type: 3}
+  imageField: {fileID: 0}
+  tmpText: {fileID: 0}
 --- !u!1 &1660739156
 GameObject:
   m_ObjectHideFlags: 0
@@ -4569,6 +4587,8 @@ MonoBehaviour:
   fMODEvent: SFX/ButtonMAS
   filled: {fileID: 21300000, guid: cba72c32b8a07444ca760acf70452c8e, type: 3}
   nonFilled: {fileID: 21300000, guid: 229a92c25c925ca489a5149191dc6fa4, type: 3}
+  imageField: {fileID: 0}
+  tmpText: {fileID: 0}
 --- !u!1 &1692404650907846816
 GameObject:
   m_ObjectHideFlags: 0
@@ -4633,6 +4653,10 @@ MonoBehaviour:
   - {fileID: 455168941604539102}
   keyboardGO: {fileID: 0}
   progressMap: {fileID: 0}
+  finishScreen: {fileID: 0}
+  restartButton: {fileID: 0}
+  goldStar: {fileID: 0}
+  starTimer: 1
 --- !u!1 &1692404650930584768
 GameObject:
   m_ObjectHideFlags: 0
@@ -5028,6 +5052,8 @@ MonoBehaviour:
   fMODEvent: SFX/ButtonMAS
   filled: {fileID: 21300000, guid: 1f6b64472c9aae4419294898b4aa4ccd, type: 3}
   nonFilled: {fileID: 21300000, guid: ca30bbaacb21df44ca0ce8d1856eb06c, type: 3}
+  imageField: {fileID: 0}
+  tmpText: {fileID: 0}
 --- !u!1 &1692404651500660088
 GameObject:
   m_ObjectHideFlags: 0
@@ -5166,6 +5192,8 @@ MonoBehaviour:
   fMODEvent: SFX/ButtonMAS
   filled: {fileID: 21300000, guid: ce0b4726394ef7f4e9e741f484339cfc, type: 3}
   nonFilled: {fileID: 21300000, guid: cc5d2626f1e17a2448fa75057d86f886, type: 3}
+  imageField: {fileID: 0}
+  tmpText: {fileID: 0}
 --- !u!1 &1692404651555909031
 GameObject:
   m_ObjectHideFlags: 0
@@ -5304,6 +5332,8 @@ MonoBehaviour:
   fMODEvent: SFX/ButtonMAS
   filled: {fileID: 21300000, guid: ce0b4726394ef7f4e9e741f484339cfc, type: 3}
   nonFilled: {fileID: 21300000, guid: cc5d2626f1e17a2448fa75057d86f886, type: 3}
+  imageField: {fileID: 0}
+  tmpText: {fileID: 0}
 --- !u!1 &2437488804112019395
 GameObject:
   m_ObjectHideFlags: 0

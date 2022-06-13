@@ -11,7 +11,7 @@ public class Task4 : MonoBehaviour, IKeyboard
 {
 	[SerializeField] private TMP_Text equationTmpText;
 	[SerializeField] private TMP_Text answerText;
-	[SerializeField, InlineEditor] private List<Task4Question> questions = new List<Task4Question>();
+	[SerializeField, InlineEditor, TableList] private List<Task4Question> questions = new List<Task4Question>();
 	[SerializeField] private Button replayButton;
 
 

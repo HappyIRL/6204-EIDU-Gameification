@@ -11,8 +11,8 @@ using Random = UnityEngine.Random;
 
 public class Task3 : MonoBehaviour, IKeyboard
 {
-	[SerializeField] private List<Task3Question> questions = new List<Task3Question>();
-	[SerializeField, InlineEditor] private TMP_Text[] tmpTexts = new TMP_Text[4];
+	[SerializeField, InlineEditor, TableList] private List<Task3Question> questions = new List<Task3Question>();
+	[SerializeField] private TMP_Text[] tmpTexts = new TMP_Text[4];
 	[SerializeField] private Button replayButton;
 
 	private string correctAnswer = "";

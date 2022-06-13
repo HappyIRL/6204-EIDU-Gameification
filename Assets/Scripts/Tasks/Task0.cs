@@ -33,7 +33,7 @@ public class Task0 : MonoBehaviour
 		fModInstance.stop(STOP_MODE.ALLOWFADEOUT);
 		fModInstance.release();
 
-		TaskHandler.Instance.CompleteTask();
+		TaskHandler.Instance.CompleteTask(null);
 	}
 
 	private void OnDisable()

@@ -17,13 +17,16 @@ public class Task1 : MonoBehaviour
 	private TMP_Text correctAnswerTMP;
 	private string correctAnswer;
 	private bool taskCompleted;
-	private bool promptHasPlayed = false;
+	private List<string> taskData = new List<string>();
+	private string currentQuestionContent;
 
 	private void OnEnable()
 	{
 		taskCompleted = false;
 
-		PopulateFieldData(questions[0]);
+		StartCoroutine(NextQuestion());
+
+		StartCoroutine(PlayFullNumberAudio());
 
 		replayButton.onClick.AddListener(OnClick_RepeatAudio);
 
@@ -40,16 +43,18 @@ public class Task1 : MonoBehaviour
 		{
 			taskCompleted = true;
 			yield return StartCoroutine(StartAndAwaitAudioClipFinish("VO/VO Completed Task"));
-			TaskHandler.Instance.CompleteTask();
+			TaskHandler.Instance.CompleteTask(taskData);
 			yield break;
 		}
 
-		PopulateFieldData(questions[questionIndex + 1]);
+		PopulateFieldData(questions[questionIndex]);
 		questionIndex++;
 	}
 
-	private void ResetFieldData()
+	private void ResetPopulationData()
 	{
+		currentQuestionContent = "";
+
 		for (int i = 0; i < taskFields.Length; i++)
 		{
 			taskFields[i].SetContext("", false);
@@ -58,11 +63,21 @@ public class Task1 : MonoBehaviour
 
 	private void OnButtonClick(int index)
 	{
-		if (string.IsNullOrEmpty(taskFields[index].TmpText.text) || taskCompleted)
+		TMP_Text tmp = taskFields[index].TmpText;
+		string tmpText = tmp.text;
+
+		if (string.IsNullOrEmpty(tmpText) || taskCompleted)
 			return;
 
-		if (taskFields[index].TmpText == correctAnswerTMP)
+		bool isCorrectAnswer = false;
+
+		if (tmp == correctAnswerTMP)
+		{
 			OnCorrectAnswer();
+			isCorrectAnswer = true;
+		}
+
+		taskData.Add($"M.1.1.{questionIndex}, {currentQuestionContent}, {correctAnswer}, {isCorrectAnswer}, {tmpText}");
 
 		fModInstance.stop(STOP_MODE.IMMEDIATE);
 		fModInstance.release();
@@ -72,13 +87,12 @@ public class Task1 : MonoBehaviour
 
 	private void OnCorrectAnswer()
 	{
-		print("yay");
 		StartCoroutine(TaskHandler.Instance.SummonStar());
 	}
 
 	private void PopulateFieldData(Task1Question data)
 	{
-		ResetFieldData();
+		ResetPopulationData();
 
 		List<string> answers = data.Options;
 
@@ -86,9 +100,10 @@ public class Task1 : MonoBehaviour
 
 		for (int i = 0; i < answers.Count; i++)
 		{
+			
 			if (!string.IsNullOrEmpty(answers[i]))
 			{
-				int x = int.Parse(answers[i]);
+				currentQuestionContent += answers[i] + ";";
 
 				shuffledTexts[i].SetContext(answers[i], true);
 
@@ -104,7 +119,16 @@ public class Task1 : MonoBehaviour
 			}
 		}
 
-		StartCoroutine(PlayNumberAudio());
+		currentQuestionContent = currentQuestionContent.Remove(currentQuestionContent.Length - 1, 1);
+
+		if (questionIndex > 0)
+			StartCoroutine(PlayNumberAudio());
+	}
+
+	private IEnumerator PlayNumberAudio()
+	{
+		yield return new WaitForSeconds(0.5f);
+		FMODUnity.RuntimeManager.PlayOneShot($"event:/VO/VO {correctAnswer}");
 	}
 
 	private IEnumerator StartAndAwaitAudioClipFinish(string audioClip)
@@ -123,12 +147,11 @@ public class Task1 : MonoBehaviour
 
 	private void OnClick_RepeatAudio()
 	{
-		StartCoroutine(PlayNumberAudio());
+		StartCoroutine(PlayFullNumberAudio());
 	}
 
-	private IEnumerator PlayNumberAudio()
+	private IEnumerator PlayFullNumberAudio()
 	{
-		// TODO: prompt should only play once!!!!
 		yield return StartCoroutine(StartAndAwaitAudioClipFinish("VO/VO Number Prompt"));
 
 		if (fModInstance.isValid())

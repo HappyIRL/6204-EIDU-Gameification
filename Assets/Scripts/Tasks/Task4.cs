@@ -20,11 +20,16 @@ public class Task4 : MonoBehaviour, IKeyboard
 	private int numberCountNeeded;
 	private int questionIndex;
 	private bool canListen;
+	private List<string> taskData = new List<string>();
+	private string currentQuestionContent;
+
 
 
 	private void OnEnable()
 	{
 		PopulateFieldData(questions[0]);
+
+		PlayQuestionAudio();
 
 		replayButton.onClick.AddListener(PlayQuestionAudio);
 	}
@@ -39,7 +44,7 @@ public class Task4 : MonoBehaviour, IKeyboard
 			if (!TaskHandler.Instance.IsLastTask())
 				yield return StartCoroutine(StartAndAwaitAudioClipFinish("VO/VO Great"));
 
-			TaskHandler.Instance.CompleteTask();
+			TaskHandler.Instance.CompleteTask(taskData);
 			yield break;
 		}
 
@@ -67,21 +72,24 @@ public class Task4 : MonoBehaviour, IKeyboard
 
 	private void PopulateFieldData(Task4Question data)
 	{
+		string equation;
+
 		if (data.IsSubstraction)
 		{
-			equationTmpText.text = $"{data.FirstNumber} - {data.SecondNumber} =";
+			equation = $"{data.FirstNumber} - {data.SecondNumber} =";
 			correctAnswer = (data.FirstNumber - data.SecondNumber).ToString();
 		}
 		else
 		{
-			equationTmpText.text = $"{data.FirstNumber} + {data.SecondNumber} =";
+			equation = $"{data.FirstNumber} + {data.SecondNumber} =";
 			correctAnswer = (data.FirstNumber + data.SecondNumber).ToString();
 		}
 
+		equationTmpText.text = equation;
+		currentQuestionContent = equation;
+
 		numberCountNeeded = correctAnswer.Length;
 		canListen = true;
-
-		PlayQuestionAudio();
 	}
 
 	private void PlayQuestionAudio()
@@ -128,16 +136,22 @@ public class Task4 : MonoBehaviour, IKeyboard
 			answer = answer + savedNumbers[i];
 		}
 
+		bool isCorrectAnswer = false;
+
 		if (correctAnswer.Contains(answer))
 		{
 			OnCorrectAnswer();
+			isCorrectAnswer = true;
 		}
+
+		taskData.Add($"M.1.4-5.{questionIndex}, {currentQuestionContent}, {correctAnswer}, {isCorrectAnswer}, {answer}");
 
 		StartCoroutine(NextQuestion());
 	}
 
 	private void ResetAnswerData()
 	{
+		currentQuestionContent = "";
 		savedNumbers.Clear();
 		answerText.text = "";
 	}

@@ -21,10 +21,15 @@ public class Task3 : MonoBehaviour, IKeyboard
 	private TMP_Text answerText;
 	private List<int> savedNumbers = new();
 	private bool canListen;
+	private List<string> taskData = new List<string>();
+	private string currentQuestionContent;
+
 
 	private void OnEnable()
 	{
 		PopulateFieldData(questions[0]);
+
+		PlayQuestionAudio();
 
 		replayButton.onClick.AddListener(PlayQuestionAudio);
 	}
@@ -37,15 +42,15 @@ public class Task3 : MonoBehaviour, IKeyboard
 		for (int i = 0; i < answers.Length; i++)
 		{
 			tmpTexts[i].text = answers[i];
+			currentQuestionContent += answers[i] + ";";
 		}
 
+		currentQuestionContent = currentQuestionContent.Remove(currentQuestionContent.Length - 1, 1);
 		answerText = tmpTexts[index];
 		correctAnswer = answerText.text;
 		numberCountNeeded = answerText.text.Length;
 		answerText.text = "";
 		canListen = true;
-
-		PlayQuestionAudio();
 	}
 
 	private void PlayQuestionAudio()
@@ -68,7 +73,7 @@ public class Task3 : MonoBehaviour, IKeyboard
 		if (questionIndex >= questions.Count - 1)
 		{
 			yield return StartCoroutine(StartAndAwaitAudioClipFinish("VO/VO New One"));
-			TaskHandler.Instance.CompleteTask();
+			TaskHandler.Instance.CompleteTask(taskData);
 			yield break;
 		}
 
@@ -80,6 +85,7 @@ public class Task3 : MonoBehaviour, IKeyboard
 
 	private void ResetAnswerData()
 	{
+		currentQuestionContent = "";
 		savedNumbers.Clear();
 		answerText.text = "";
 	}
@@ -93,10 +99,15 @@ public class Task3 : MonoBehaviour, IKeyboard
 			answer = answer + savedNumbers[i];
 		}
 
+		bool isCorrectAnswer = false;
+
 		if (correctAnswer.Contains(answer))
 		{
 			OnCorrectAnswer();
+			isCorrectAnswer = true;
 		}
+
+		taskData.Add($"M.1.3.{questionIndex}, {currentQuestionContent}, {correctAnswer}, {isCorrectAnswer}, {answer}");
 
 		StartCoroutine(NextQuestion());
 	}

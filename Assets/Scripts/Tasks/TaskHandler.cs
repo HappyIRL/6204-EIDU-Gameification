@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using Sirenix.Utilities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TaskHandler : MonoBehaviour
@@ -12,7 +15,9 @@ public class TaskHandler : MonoBehaviour
 	[SerializeField] private Button restartButton;
 	[SerializeField] private GameObject goldStar;
     [SerializeField, Range(0.1f, 3f)] private float starTimer;
-	
+    [SerializeField] private UserData studentInfo;
+
+    private List<List<string>> userTestData = new List<List<string>>();
 	private Keyboard keyboard;
 
 	public static TaskHandler Instance { get; private set; }
@@ -38,11 +43,16 @@ public class TaskHandler : MonoBehaviour
 			Debug.LogError($"List of tasksInOrder needs to be populated, at: {this}" );
 		}
 
+		print(studentInfo.StudentInfo);
+
 		NextTask(false);
 	}
 
-	public void CompleteTask()
+	public void CompleteTask(List<string> data)
 	{
+		if(data != null)
+			userTestData.Add(data);
+
 		GameObject taskGO = tasksInOrder[activeTask];
 		taskGO.SetActive(false);
 		keyboardGO.SetActive(false);
@@ -90,15 +100,38 @@ public class TaskHandler : MonoBehaviour
 
 	public void RestartTest()
 	{
-		finishScreen.SetActive(false);
-		activeTask = 0;
-		NextTask(false);
+		SceneManager.LoadScene(0);
 	}
 
 	private void OnAllTasksComplete()
 	{
 		FMODUnity.RuntimeManager.PlayOneShot("event:/VO/VO Completed Test");
+
 		finishScreen.SetActive(true);
+
+		if (userTestData.Count > 0)
+		{
+			if (!Directory.Exists($"{Application.persistentDataPath}/UserData"))
+			{
+				Directory.CreateDirectory($"{Application.persistentDataPath}/UserData");
+			}
+
+			string saveName = studentInfo.StudentInfo;
+
+			TextWriter tw = new StreamWriter($"{Application.persistentDataPath}/UserData/{saveName}.csv", false);
+
+			tw.WriteLine("Question Code,Question Content,Desired Answer,Answer Given,IsCorrect?");
+
+			for (int i = 0; i < userTestData.Count; i++)
+			{
+				for (int j = 0; j < userTestData[i].Count; j++)
+				{
+					tw.WriteLine(userTestData[i][j]);
+				}
+			}
+
+			tw.Close();
+		}
 	}
 
 	public IEnumerator SummonStar()

@@ -14,6 +14,9 @@ public class Task2 : MonoBehaviour
 	private int questionIndex;
 	private int correctAnswerIndex;
 	private bool taskCompleted;
+	private List<string> taskData = new List<string>();
+	private string currentQuestionContent;
+	private string correctAnswer;
 
 	private void OnEnable()
 	{
@@ -21,6 +24,7 @@ public class Task2 : MonoBehaviour
 
 		replayButton.onClick.AddListener(PlayQuestionAudio);
 
+		PlayQuestionAudio();
 
 		for (int i = 0; i < taskFields.Length; i++)
 		{
@@ -40,23 +44,29 @@ public class Task2 : MonoBehaviour
 		{
 			if (!string.IsNullOrEmpty(answers[i]))
 			{
+				currentQuestionContent += answers[i] + ";";
+
 				taskFields[i].SetContext(answers[i], true);
 
-				int x = int.Parse(answers[i]);
-
-				if (x > biggestValue)
+				if (int.TryParse(answers[i], out int result))
 				{
-					biggestValue = x;
-					correctAnswerIndex = i;
+					if (result > biggestValue)
+					{
+						biggestValue = result;
+						correctAnswerIndex = i;
+						correctAnswer = answers[i];
+					}
 				}
 			}
 		}
 
-		PlayQuestionAudio();
+		currentQuestionContent = currentQuestionContent.Remove(currentQuestionContent.Length - 1, 1);
 	}
 
 	private void ResetFieldData()
 	{
+		currentQuestionContent = "";
+
 		for (int i = 0; i < taskFields.Length; i++)
 		{
 			taskFields[i].SetContext("", false);
@@ -86,11 +96,20 @@ public class Task2 : MonoBehaviour
 
 	private void OnButtonClick(int i)
 	{
-		if (string.IsNullOrEmpty(taskFields[i].TmpText.text) || taskCompleted)
+		string tmpText = taskFields[i].TmpText.text;
+
+		if (string.IsNullOrEmpty(tmpText) || taskCompleted)
 			return;
 
+		bool isCorrectAnswer = false;
+
 		if (correctAnswerIndex == i)
+		{
 			OnCorrectAnswer();
+			isCorrectAnswer = true;
+		}
+
+		taskData.Add($"M.1.2.{questionIndex}, {currentQuestionContent}, {correctAnswer}, {isCorrectAnswer}, {tmpText}");
 
 		StartCoroutine(NextQuestion());
 	}
@@ -101,7 +120,7 @@ public class Task2 : MonoBehaviour
 		{
 			taskCompleted = true;
 			yield return StartCoroutine(StartAndAwaitAudioClipFinish("VO/VO Excellent"));
-			TaskHandler.Instance.CompleteTask();
+			TaskHandler.Instance.CompleteTask(taskData);
 			yield break;
 		}
 

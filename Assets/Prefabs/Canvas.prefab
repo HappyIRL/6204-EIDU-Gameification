@@ -1982,6 +1982,22 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 567561731265648027, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: m_fontSize
+      value: 122.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 567561731265648027, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 9bbf1045b9bfead4c8509b46879352e4, type: 2}
+    - target: {fileID: 567561731265648027, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 122.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 567561731265648027, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -2128816753280363348, guid: 9bbf1045b9bfead4c8509b46879352e4, type: 2}
     - target: {fileID: 1315983849573210252, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
       propertyPath: tmpText
       value: 
@@ -2222,6 +2238,30 @@ PrefabInstance:
       propertyPath: questions.Array.data[11]
       value: 
       objectReference: {fileID: 11400000, guid: 1a61c77b8a3f4d64cac91d3ebe008a3e, type: 2}
+    - target: {fileID: 2817475662449848763, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fb42de912f00d4944a42af176d4603a4, type: 3}
+    - target: {fileID: 2817475662449848763, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817475662449848763, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817475662449848763, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315263236503275996, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315263236503275996, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cba72c32b8a07444ca760acf70452c8e, type: 3}
     - target: {fileID: 3873619905274912802, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
       propertyPath: tmpText
       value: 
@@ -2298,6 +2338,14 @@ PrefabInstance:
       propertyPath: imageField
       value: 
       objectReference: {fileID: 1950497503103060451}
+    - target: {fileID: 5869727866106030807, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 259.7385
+      objectReference: {fileID: 0}
+    - target: {fileID: 5869727866106030807, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 157.79
+      objectReference: {fileID: 0}
     - target: {fileID: 6382680329844508120, guid: c26e363bc04862e46ab185d6826ca9f9, type: 3}
       propertyPath: tmpText
       value: 

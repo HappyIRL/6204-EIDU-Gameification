@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0420017cffdd79f4a96af7dffa2b9724, type: 3}
   m_Name: Question 4
   m_EditorClassIdentifier: 
-  isSubstraction: 0
-  firstNumber: 0
-  secondNumber: 0
+  isSubstraction: 1
+  firstNumber: 25
+  secondNumber: 7

@@ -79,6 +79,9 @@ public class Task2 : MonoBehaviour
 
 	private void RepeatQuestionAudio()
 	{
+		if(repeatCoroutine != null)
+			StopCoroutine(repeatCoroutine);
+
 		if (repeatCount > 2)
 		{
 			FailQuestion();
@@ -87,6 +90,8 @@ public class Task2 : MonoBehaviour
 
 		FMODUnity.RuntimeManager.PlayOneShot($"event:/VO/VO Bigest Number");
 		repeatCount++;
+
+		repeatCoroutine = StartCoroutine(RepeatInterval());
 	}
 
 	private IEnumerator StartAndAwaitAudioClipFinish(string audioClip)

@@ -162,7 +162,6 @@ public class Task1 : MonoBehaviour
 
 		for (int i = 0; i < answers.Count; i++)
 		{
-			
 			if (!string.IsNullOrEmpty(answers[i]))
 			{
 				currentQuestionContent += answers[i] + ";";
@@ -209,6 +208,9 @@ public class Task1 : MonoBehaviour
 
 	private void OnClick_RepeatAudio()
 	{
+		if(repeatCoroutine != null)
+			StopCoroutine(repeatCoroutine);
+
 		if (repeatCount > 2)
 		{
 			FailQuestion();
@@ -217,6 +219,8 @@ public class Task1 : MonoBehaviour
 
 		StartCoroutine(PlayFullNumberAudio());
 		repeatCount++;
+
+		repeatCoroutine = StartCoroutine(RepeatInterval());
 	}
 
 	private IEnumerator PlayFullNumberAudio()

@@ -180,6 +180,9 @@ public class Task4 : MonoBehaviour, IKeyboard
 
 	private IEnumerator RepeatInterval()
 	{
+		if(repeatCoroutine != null)
+			StopCoroutine(repeatCoroutine);
+
 		if (repeatCount > 2)
 		{
 			FailQuestion();
@@ -193,6 +196,8 @@ public class Task4 : MonoBehaviour, IKeyboard
 		yield return new WaitForSeconds(7f);
 
 		FailQuestion();
+
+		repeatCoroutine = StartCoroutine(RepeatInterval());
 	}
 
 	private void FailQuestion()

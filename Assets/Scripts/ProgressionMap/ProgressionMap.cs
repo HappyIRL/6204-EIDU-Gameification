@@ -8,13 +8,15 @@ using UnityEngine.Rendering;
 
 public class ProgressionMap : MonoBehaviour
 {
-	[SerializeField] private List<PathCreator> paths = new List<PathCreator>();
+	//[SerializeField] private List<PathCreator> paths = new List<PathCreator>();
 	[SerializeField] private GameObject progressionIcon;
 	[SerializeField] private GameObject background;
+	[SerializeField] private List<RectTransform> positions = new List<RectTransform>();
 
 	private FMOD.Studio.EventInstance fModInstance;
 
 	private int segmentIndex;
+
 
 	public IEnumerator NextStep(Action callback)
 	{
@@ -24,15 +26,7 @@ public class ProgressionMap : MonoBehaviour
 		if (segmentIndex == 0)
 			yield return StartCoroutine(StartAndAwaitAudioClipFinish("VO/VO Intro"));
 
-		StartCoroutine(MoveByDistanceOnPath(paths[segmentIndex],2f, callback));
-
-		if (paths.Count == segmentIndex - 1)
-		{
-			segmentIndex = 0;
-			yield break;
-		}
-
-		segmentIndex++;
+		StartCoroutine(MoveByDistanceOnPath( callback));
 	}
 
 	private IEnumerator StartAndAwaitAudioClipFinish(string audioClip)
@@ -51,26 +45,29 @@ public class ProgressionMap : MonoBehaviour
 		fModInstance.release();
 	}
 
-	private IEnumerator MoveByDistanceOnPath(PathCreator pathCreator, float totalMoveTime, Action callback)
+	private IEnumerator MoveByDistanceOnPath(Action callback)
 	{
 		float time = 0;
 
 		fModInstance = FMODUnity.RuntimeManager.CreateInstance($"event:/SFX/BusMAS");
 		fModInstance.start();
-		yield return new WaitForSeconds(2f);
+		yield return new WaitForSeconds(5f);
 
-		while (time < totalMoveTime)
-		{
-			time += Time.deltaTime;
+		//while (time < totalMoveTime)
+		//{
+		//	time += Time.deltaTime;
 
-			float percentileOfTotalTime = time / totalMoveTime;
+		//	float percentileOfTotalTime = time / totalMoveTime;
 
-			Vector3 nextPoint = pathCreator.path.GetPointAtTime(percentileOfTotalTime, EndOfPathInstruction.Stop);
+		//	Vector3 nextPoint = pathCreator.path.GetPointAtTime(percentileOfTotalTime, EndOfPathInstruction.Stop);
 
-			progressionIcon.transform.position = nextPoint;
+		//	progressionIcon.transform.position = nextPoint;
 
-			yield return null;
-		}
+		//	yield return null;
+		//}
+
+		RectTransform rt = progressionIcon.GetComponent<RectTransform>();
+		rt.position = positions[segmentIndex].position;
 
 		fModInstance.stop(STOP_MODE.ALLOWFADEOUT);
 		fModInstance.release();
@@ -79,5 +76,6 @@ public class ProgressionMap : MonoBehaviour
 		background.SetActive(false);
 		progressionIcon.SetActive(false);
 		callback?.Invoke();
+		segmentIndex++;
 	}
 }

@@ -23,21 +23,32 @@ public class Task4 : MonoBehaviour, IKeyboard
 	private List<string> taskData = new List<string>();
 	private string currentQuestionContent;
 
+	private Coroutine repeatCoroutine;
+	private int repeatCount;
+	private int wrongAnswerCount;
+
 
 
 	private void OnEnable()
 	{
-		PopulateFieldData(questions[0]);
+		StartCoroutine(NextQuestion(0));
 
-		PlayQuestionAudio();
+		FMODUnity.RuntimeManager.PlayOneShot($"event:/VO/VO Type Answer");
 
-		replayButton.onClick.AddListener(PlayQuestionAudio);
+		replayButton.onClick.AddListener(RepeatQuestionAudio);
 	}
 
-	private IEnumerator NextQuestion()
+	private IEnumerator NextQuestion(int secondsToWait)
 	{
+		repeatCount = 0;
+
+		if (repeatCoroutine != null)
+			StopCoroutine(repeatCoroutine);
+
 		canListen = false;
-		yield return new WaitForSeconds(1);
+
+		if(secondsToWait > 0)
+			yield return new WaitForSeconds(secondsToWait);
 
 		if (questionIndex >= questions.Count - 1)
 		{
@@ -52,6 +63,8 @@ public class Task4 : MonoBehaviour, IKeyboard
 
 		PopulateFieldData(questions[questionIndex + 1]);
 		questionIndex++;
+
+		repeatCoroutine = StartCoroutine(RepeatInterval());
 	}
 
 	private IEnumerator StartAndAwaitAudioClipFinish(string audioClip)
@@ -92,9 +105,16 @@ public class Task4 : MonoBehaviour, IKeyboard
 		canListen = true;
 	}
 
-	private void PlayQuestionAudio()
+	private void RepeatQuestionAudio()
 	{
+		if (repeatCount > 2)
+		{
+			FailQuestion();
+			return;
+		}
+
 		FMODUnity.RuntimeManager.PlayOneShot($"event:/VO/VO Type Answer");
+		repeatCount++;
 	}
 
 	public void SelectNumber(int n)
@@ -129,6 +149,9 @@ public class Task4 : MonoBehaviour, IKeyboard
 
 	private void CheckAnswer()
 	{
+		if (repeatCoroutine != null)
+			StopCoroutine(repeatCoroutine);
+
 		string answer = "";
 
 		for (int i = 0; i < savedNumbers.Count; i++)
@@ -143,17 +166,64 @@ public class Task4 : MonoBehaviour, IKeyboard
 			OnCorrectAnswer();
 			isCorrectAnswer = true;
 		}
+		else
+		{
+			wrongAnswerCount++;
+		}
 
 		taskData.Add($"M.1.4-5.{questionIndex}, {currentQuestionContent}, {correctAnswer}, {isCorrectAnswer}, {answer}");
 
-		StartCoroutine(NextQuestion());
+		CheckForAnswers();
+
+		StartCoroutine(NextQuestion(1));
+	}
+
+	private IEnumerator RepeatInterval()
+	{
+		if (repeatCount > 2)
+		{
+			FailQuestion();
+			yield break;
+		}
+
+		yield return new WaitForSeconds(7f);
+		RepeatQuestionAudio();
+		yield return new WaitForSeconds(7f);
+		RepeatQuestionAudio();
+		yield return new WaitForSeconds(7f);
+
+		FailQuestion();
+	}
+
+	private void FailQuestion()
+	{
+		taskData.Add($"M.1.4-5.{questionIndex}, {currentQuestionContent}, {correctAnswer}, false, N/G");
+		wrongAnswerCount++;
+		CheckForAnswers();
+		StartCoroutine(NextQuestion(1));
+	}
+
+	private void CheckForAnswers()
+	{
+		if (wrongAnswerCount > 1 && questionIndex != questions.Count - 1)
+		{
+			questionIndex += 1;
+
+			while (questionIndex < questions.Count - 1)
+			{
+				taskData.Add($"M.1.4-5.{questionIndex}, , , ,SKIPPED");
+				questionIndex++;
+			}
+		}
 	}
 
 	private void ResetAnswerData()
 	{
 		currentQuestionContent = "";
 		savedNumbers.Clear();
-		answerText.text = "";
+
+		if(answerText != null)
+			answerText.text = "";
 	}
 
 	private void OnCorrectAnswer()
@@ -164,6 +234,8 @@ public class Task4 : MonoBehaviour, IKeyboard
 
 	private void OnDisable()
 	{
+		StopAllCoroutines();
+
 		replayButton.onClick.RemoveAllListeners();
 	}
 }

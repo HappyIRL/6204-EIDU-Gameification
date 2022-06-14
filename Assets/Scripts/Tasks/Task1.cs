@@ -20,6 +20,10 @@ public class Task1 : MonoBehaviour
 	private List<string> taskData = new List<string>();
 	private string currentQuestionContent;
 
+	private Coroutine repeatCoroutine;
+	private int repeatCount;
+	private int wrongAnswerCount;
+
 	private void OnEnable()
 	{
 		taskCompleted = false;
@@ -39,6 +43,11 @@ public class Task1 : MonoBehaviour
 
 	private IEnumerator NextQuestion()
 	{
+		if (repeatCoroutine != null)
+			StopCoroutine(repeatCoroutine);
+
+		repeatCount = 0;
+
 		if (questionIndex >= questions.Count - 1)
 		{
 			taskCompleted = true;
@@ -49,7 +58,37 @@ public class Task1 : MonoBehaviour
 
 		PopulateFieldData(questions[questionIndex]);
 		questionIndex++;
+
+		repeatCoroutine = StartCoroutine(RepeatInterval());
 	}
+
+	private IEnumerator RepeatInterval()
+	{
+		if (repeatCount > 2)
+		{
+			FailQuestion();
+			yield break;
+		}
+
+		yield return new WaitForSeconds(10f);
+		OnClick_RepeatAudio();
+		yield return new WaitForSeconds(10f);
+		OnClick_RepeatAudio();
+		yield return new WaitForSeconds(10f);
+
+		FailQuestion();
+	}
+
+	private void FailQuestion()
+	{
+		taskData.Add($"M.1.1.{questionIndex}, {currentQuestionContent}, {correctAnswer}, false, N/G");
+		fModInstance.stop(STOP_MODE.IMMEDIATE);
+		fModInstance.release();
+		wrongAnswerCount++;
+		CheckForAnswers();
+		StartCoroutine(NextQuestion());
+	}
+
 
 	private void ResetPopulationData()
 	{
@@ -69,6 +108,9 @@ public class Task1 : MonoBehaviour
 		if (string.IsNullOrEmpty(tmpText) || taskCompleted)
 			return;
 
+		if (repeatCoroutine != null)
+			StopCoroutine(repeatCoroutine);
+
 		bool isCorrectAnswer = false;
 
 		if (tmp == correctAnswerTMP)
@@ -76,13 +118,33 @@ public class Task1 : MonoBehaviour
 			OnCorrectAnswer();
 			isCorrectAnswer = true;
 		}
-
-		taskData.Add($"M.1.1.{questionIndex}, {currentQuestionContent}, {correctAnswer}, {isCorrectAnswer}, {tmpText}");
+		else
+		{
+			wrongAnswerCount++;
+		}
 
 		fModInstance.stop(STOP_MODE.IMMEDIATE);
 		fModInstance.release();
 
+		taskData.Add($"M.1.1.{questionIndex}, {currentQuestionContent}, {correctAnswer}, {isCorrectAnswer}, {tmpText}");
+
+		CheckForAnswers();
+
 		StartCoroutine(NextQuestion());
+	}
+
+	private void CheckForAnswers()
+	{
+		if (wrongAnswerCount > 1 && questionIndex != questions.Count - 1)
+		{
+			questionIndex += 1;
+
+			while (questionIndex < questions.Count - 1)
+			{
+				taskData.Add($"M.1.1.{questionIndex}, , , ,SKIPPED");
+				questionIndex++;
+			}
+		}
 	}
 
 	private void OnCorrectAnswer()
@@ -147,7 +209,14 @@ public class Task1 : MonoBehaviour
 
 	private void OnClick_RepeatAudio()
 	{
+		if (repeatCount > 2)
+		{
+			FailQuestion();
+			return;
+		}
+
 		StartCoroutine(PlayFullNumberAudio());
+		repeatCount++;
 	}
 
 	private IEnumerator PlayFullNumberAudio()
@@ -163,6 +232,8 @@ public class Task1 : MonoBehaviour
 
 	private void OnDisable()
 	{
+		StopAllCoroutines();
+
 		replayButton.onClick.RemoveAllListeners();
 
 		for (int i = 0; i < taskFields.Length; i++)

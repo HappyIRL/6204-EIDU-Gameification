@@ -218,8 +218,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2444867671314312874}
-  m_RootOrder: 6
+  m_Father: {fileID: 1950497503550602248}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &486527146
 MonoBehaviour:
@@ -303,8 +303,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2444867671314312874}
-  m_RootOrder: 5
+  m_Father: {fileID: 1950497503550602248}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &741642946
 MonoBehaviour:
@@ -388,8 +388,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2444867671314312874}
-  m_RootOrder: 3
+  m_Father: {fileID: 1950497503550602248}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1393234076
 MonoBehaviour:
@@ -473,8 +473,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2444867671314312874}
-  m_RootOrder: 4
+  m_Father: {fileID: 1950497503550602248}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1548512409
 MonoBehaviour:
@@ -789,8 +789,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2444867671314312874}
-  m_RootOrder: 2
+  m_Father: {fileID: 1950497503550602248}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1322167642
 MonoBehaviour:
@@ -957,6 +957,11 @@ RectTransform:
   - {fileID: 1950497503569904008}
   - {fileID: 2444867671314312874}
   - {fileID: 1618982935}
+  - {fileID: 4042352180282097322}
+  - {fileID: 1393234075}
+  - {fileID: 1548512408}
+  - {fileID: 741642945}
+  - {fileID: 486527145}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1058,11 +1063,6 @@ RectTransform:
   m_Children:
   - {fileID: 4178580500469730114}
   - {fileID: 7197710105713375431}
-  - {fileID: 4042352180282097322}
-  - {fileID: 1393234075}
-  - {fileID: 1548512408}
-  - {fileID: 741642945}
-  - {fileID: 486527145}
   m_Father: {fileID: 1950497503550602248}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
